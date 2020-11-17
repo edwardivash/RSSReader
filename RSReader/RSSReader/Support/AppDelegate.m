@@ -6,7 +6,7 @@
 //
 
 #import "AppDelegate.h"
-#import "ViewController.h"
+#import "FeedListVC.h"
 
 @interface AppDelegate ()
 
@@ -18,15 +18,22 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     self.window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
-    ViewController *vc = [[ViewController alloc]init];
+    FeedListVC *vc = [[FeedListVC alloc]initWithNibName:@"FeedListVC" bundle:nil];
     
-    
-    [self.window makeKeyAndVisible];
     [self.window setRootViewController:vc];
+    [self.window makeKeyAndVisible];
+    
+    [vc release];
+    [_window release];
     
     return YES;
 }
 
 
+- (void)dealloc
+{
+    [_window release];
+    [super dealloc];
+}
 
 @end

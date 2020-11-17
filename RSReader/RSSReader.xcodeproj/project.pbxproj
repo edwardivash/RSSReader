@@ -11,7 +11,10 @@
 		D723D9672562E304003DF465 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D723D9662562E304003DF465 /* Assets.xcassets */; };
 		D723D96A2562E304003DF465 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D723D9682562E304003DF465 /* LaunchScreen.storyboard */; };
 		D723D96D2562E304003DF465 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D723D96C2562E304003DF465 /* main.m */; };
-		D723D99A2562EDB8003DF465 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D723D9992562EDB8003DF465 /* ViewController.m */; };
+		D723D9AF2563C890003DF465 /* FeedListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D723D9AD2563C890003DF465 /* FeedListVC.m */; };
+		D723D9B02563C890003DF465 /* FeedListVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = D723D9AE2563C890003DF465 /* FeedListVC.xib */; };
+		D723D9B92563D2DC003DF465 /* Feeds.m in Sources */ = {isa = PBXBuildFile; fileRef = D723D9B82563D2DC003DF465 /* Feeds.m */; };
+		D789E13225640A2100AAE598 /* RSSReader.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D789E13125640A2100AAE598 /* RSSReader.rtf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,8 +25,12 @@
 		D723D9692562E304003DF465 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D723D96B2562E304003DF465 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D723D96C2562E304003DF465 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D723D9982562EDB8003DF465 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		D723D9992562EDB8003DF465 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		D723D9AC2563C890003DF465 /* FeedListVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedListVC.h; sourceTree = "<group>"; };
+		D723D9AD2563C890003DF465 /* FeedListVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedListVC.m; sourceTree = "<group>"; };
+		D723D9AE2563C890003DF465 /* FeedListVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedListVC.xib; sourceTree = "<group>"; };
+		D723D9B72563D2DC003DF465 /* Feeds.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Feeds.h; sourceTree = "<group>"; };
+		D723D9B82563D2DC003DF465 /* Feeds.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Feeds.m; sourceTree = "<group>"; };
+		D789E13125640A2100AAE598 /* RSSReader.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = RSSReader.rtf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,16 +63,52 @@
 		D723D9592562E2FE003DF465 /* RSSReader */ = {
 			isa = PBXGroup;
 			children = (
+				D789E13125640A2100AAE598 /* RSSReader.rtf */,
+				D723D9B22563CFAF003DF465 /* Support */,
+				D723D9BD2563D2E5003DF465 /* Models */,
+				D723D9B42563CFED003DF465 /* View Controllers */,
+				D723D9B62563D009003DF465 /* Views */,
+			);
+			path = RSSReader;
+			sourceTree = "<group>";
+		};
+		D723D9B22563CFAF003DF465 /* Support */ = {
+			isa = PBXGroup;
+			children = (
 				D723D95A2562E2FE003DF465 /* AppDelegate.h */,
 				D723D95B2562E2FE003DF465 /* AppDelegate.m */,
-				D723D9982562EDB8003DF465 /* ViewController.h */,
-				D723D9992562EDB8003DF465 /* ViewController.m */,
 				D723D9662562E304003DF465 /* Assets.xcassets */,
 				D723D9682562E304003DF465 /* LaunchScreen.storyboard */,
 				D723D96B2562E304003DF465 /* Info.plist */,
 				D723D96C2562E304003DF465 /* main.m */,
 			);
-			path = RSSReader;
+			path = Support;
+			sourceTree = "<group>";
+		};
+		D723D9B42563CFED003DF465 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D723D9AC2563C890003DF465 /* FeedListVC.h */,
+				D723D9AD2563C890003DF465 /* FeedListVC.m */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		D723D9B62563D009003DF465 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D723D9AE2563C890003DF465 /* FeedListVC.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D723D9BD2563D2E5003DF465 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D723D9B72563D2DC003DF465 /* Feeds.h */,
+				D723D9B82563D2DC003DF465 /* Feeds.m */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,6 +168,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D723D96A2562E304003DF465 /* LaunchScreen.storyboard in Resources */,
+				D723D9B02563C890003DF465 /* FeedListVC.xib in Resources */,
+				D789E13225640A2100AAE598 /* RSSReader.rtf in Resources */,
 				D723D9672562E304003DF465 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -136,7 +181,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D723D99A2562EDB8003DF465 /* ViewController.m in Sources */,
+				D723D9AF2563C890003DF465 /* FeedListVC.m in Sources */,
+				D723D9B92563D2DC003DF465 /* Feeds.m in Sources */,
 				D723D95C2562E2FE003DF465 /* AppDelegate.m in Sources */,
 				D723D96D2562E304003DF465 /* main.m in Sources */,
 			);
@@ -207,7 +253,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -260,7 +306,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -275,8 +321,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3M25X6SA3H;
-				INFOPLIST_FILE = RSSReader/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				INFOPLIST_FILE = "$(SRCROOT)/RSSReader/Support/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -294,8 +340,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3M25X6SA3H;
-				INFOPLIST_FILE = RSSReader/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				INFOPLIST_FILE = "$(SRCROOT)/RSSReader/Support/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
