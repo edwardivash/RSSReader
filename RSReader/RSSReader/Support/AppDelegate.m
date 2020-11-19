@@ -17,14 +17,17 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    self.window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
-    FeedListVC *vc = [[FeedListVC alloc]initWithNibName:@"FeedListVC" bundle:nil];
+    UIWindow *window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
+    self.window = window;
+    FeedListVC *vc = [[FeedListVC alloc]init];
+    UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:vc];
     
-    [self.window setRootViewController:vc];
+    [self.window setRootViewController:nvc];
     [self.window makeKeyAndVisible];
     
     [vc release];
-    [_window release];
+    [nvc release];
+    [window release];
     
     return YES;
 }
