@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FeedService : NSObject
 
+- (void)loadFeeds:(void (^)(NSArray<Feeds *> *, NSError *))completion;
+
 @end
 
 NS_ASSUME_NONNULL_END

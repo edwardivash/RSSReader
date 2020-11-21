@@ -18,7 +18,7 @@
 - (void)configureFeedItem:(Feeds *)feed {
     self.feedItem = feed;
     self.feedLabel.text = feed.title;
-    self.pubDateLabel.text = [NSString stringWithFormat:@"%@",feed.pubDate];
+    self.pubDateLabel.text = feed.pubDate;
 }
 
 

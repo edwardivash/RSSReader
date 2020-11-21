@@ -13,5 +13,4 @@
 
 -(void)parseFeeds:(NSData *)data completion:(void(^)(NSArray<Feeds *> *, NSError *))completion;
 
-
 @end

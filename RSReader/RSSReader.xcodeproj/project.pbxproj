@@ -129,6 +129,8 @@
 		D723D9B62563D009003DF465 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D73C3C8825658A9A0097261C /* FeedTableViewCell.h */,
+				D73C3C8925658A9A0097261C /* FeedTableViewCell.m */,
 				D73C3C8A25658A9A0097261C /* FeedTableViewCell.xib */,
 			);
 			path = Views;
@@ -139,8 +141,6 @@
 			children = (
 				D723D9B72563D2DC003DF465 /* Feeds.h */,
 				D723D9B82563D2DC003DF465 /* Feeds.m */,
-				D73C3C8825658A9A0097261C /* FeedTableViewCell.h */,
-				D73C3C8925658A9A0097261C /* FeedTableViewCell.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";

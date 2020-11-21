@@ -13,10 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,copy) NSString *title;
 @property (nonatomic,copy) NSString *descript;
-@property (nonatomic,copy) NSDate *pubDate;
-@property (nonatomic,readonly) NSURL *link;
+@property (nonatomic,copy) NSString *link;
+@property (nonatomic,copy) NSString *pubDate;
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
+//-(NSString *)parseDate:(NSString *)oldDateString;
 
 @end
 

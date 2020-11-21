@@ -11,21 +11,27 @@
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     if (self = [super init]) {
-        _title = dictionary[@"title"];
-        _descript = dictionary[@"description"];
-        _link = [[NSURL URLWithString:dictionary[@"url"]]retain];
-        _pubDate = [[self dateFormatter:dictionary[@"pubDate"]]retain];
+        _title = [dictionary[@"title"]copy];
+        _descript = [dictionary[@"description"]copy];
+        _link = [dictionary[@"link"]copy];
+        _pubDate = [dictionary[@"pubDate"]copy];
     }
     return self;
 }
 
+#pragma mark - Interface
 
--(NSDate *)dateFormatter:(NSString *)str {
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    formatter.dateFormat = @"EEE, d MMM yyy";
-    NSDate *date = [formatter dateFromString:str];
-    [formatter release];
-    return date;
+-(NSString *)parseDate:(NSString *)oldDateString {
+    NSDateFormatter *oldFormatter = [NSDateFormatter new];
+    [oldFormatter setDateFormat:@"EE, d LLLL YYYY HH:mm:ss Z"];
+    NSDate *oldDate = [oldFormatter dateFromString:oldDateString];
+
+    NSDateFormatter *newFormatter = [NSDateFormatter new];
+    [newFormatter setDateFormat:@"YYYY/MM/dd"];
+    NSString *newDateString = [newFormatter stringFromDate:oldDate];
+    [oldFormatter release];
+    [newFormatter release];
+    return newDateString;
 }
 
 - (void)dealloc

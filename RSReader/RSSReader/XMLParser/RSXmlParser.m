@@ -50,42 +50,41 @@ didStartElement:(NSString *)elementName
     
     if ([elementName isEqualToString:@"title"]) {
       self.parsingString = [NSMutableString string];
-    } else if ([elementName isEqualToString:@"url"]) {
+    } else if ([elementName isEqualToString:@"link"]) {
       self.parsingString = [NSMutableString string];
     } else if ([elementName isEqualToString:@"pubDate"]) {
       self.parsingString = [NSMutableString string];
     } else if ([elementName isEqualToString:@"description"]) {
       self.parsingString = [NSMutableString string];
     }
+    
+    if ([elementName isEqualToString:@"item"]) {
+        self.feedDictionary = [NSMutableDictionary dictionary];
+    }
+}
+
+- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
+    
+    if ([elementName isEqualToString:@"title"]) {
+        self.feedDictionary[elementName] = self.parsingString;
+    } else if ([elementName isEqualToString:@"link"]) {
+        self.feedDictionary[elementName] = self.parsingString;
+    } else if ([elementName isEqualToString:@"pubDate"]) {
+      self.feedDictionary[elementName] = self.parsingString;
+    } else if ([elementName isEqualToString:@"description"]) {
+        self.feedDictionary[elementName] = self.parsingString;
+    }
+    
+    if ([elementName isEqualToString:@"item"]) {
+        Feeds *feedObj = [[Feeds alloc]initWithDictionary:self.feedDictionary];
+        [self.feeds addObject:feedObj];
+        [feedObj release];
+    }
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
     [self.parsingString appendString:string];
 }
-
-//- (void)parser:(NSXMLParser *)parser
-// didEndElement:(NSString *)elementName
-//  namespaceURI:(NSString *)namespaceURI
-// qualifiedName:(NSString *)qName {
-//
-//    if (self.parsingString) {
-//        [self.parsingDictionary setObject:self.parsingString forKey:elementName];
-//        [_parsingString release];
-//        self.parsingString = nil;
-//    }
-//
-//    if ([elementName isEqualToString:@"feed"] {
-//        [self.feedDictionary setObject:self.parsingDictionary forKey:elementName];
-//        self.parsingDictionary = nil;
-//    } else if ([elementName isEqualToString:@"avatarUrl"]) {
-//        [self.feedDictionary addEntriesFromDictionary:self.parsingDictionary];
-//        self.parsingDictionary = nil;
-//    } else if ([elementName isEqualToString:@"user"]) {
-//        Feeds *feed = [[Feeds alloc] initWithDictionary:self.feedDictionary];
-//        self.feedDictionary = nil;
-//        [self.feeds addObject:feed];
-//    }
-//}
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     if (self.completion) {

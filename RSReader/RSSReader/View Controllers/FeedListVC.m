@@ -8,20 +8,26 @@
 #import "FeedListVC.h"
 #import "Feeds.h"
 #import "FeedTableViewCell.h"
+#import "FeedService.h"
 
 
 @interface FeedListVC () <UITableViewDelegate, UITableViewDataSource>
-@property (retain, nonatomic)NSMutableArray<Feeds*> *dataSource;
+
+@property (retain, nonatomic)NSArray<Feeds*> *dataSource;
 @property (retain, nonatomic) UITableView *feedTableView;
+@property (retain, nonatomic) FeedService *feedService;
+
 @end
 
 @implementation FeedListVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
+    [self feedsLoader];
     [self setupViews];
 }
+
 
 -(void)setupViews {
     
@@ -45,6 +51,25 @@
     
 }
 
+#pragma mark - Feeds load
+
+-(void)feedsLoader {
+    FeedService *feedService = [[FeedService alloc]init];
+    NSArray *dataArray = [[NSArray alloc]init];
+    self.feedService = feedService;
+    self.dataSource = dataArray;
+    __block typeof (self)weakSelf = self;
+    [self.feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
+        weakSelf.dataSource = feedsArray;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.feedTableView reloadData];
+        });
+    }];
+    
+    [feedService release];
+    [dataArray release];
+}
+
 
 #pragma mark - DataSource
 
@@ -54,9 +79,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellId" forIndexPath:indexPath];
-    Feeds *feeds = self.dataSource[indexPath.row];
-    [cell configureFeedItem:feeds];
-    
+    cell.feedItem = self.dataSource[indexPath.row];
+    [cell configureFeedItem:cell.feedItem];
     
     return cell;
 }
@@ -64,19 +88,23 @@
 #pragma mark - Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self displayURL:self.dataSource[indexPath.row].link];
+    NSString *urlString = self.dataSource[indexPath.row].link;
+    NSURL *url = [NSURL URLWithString:urlString];
+    [[UIApplication sharedApplication]openURL:url options:@{} completionHandler:^(BOOL openUrl) {
+        NSLog(@"%@", openUrl ? @"Yes":@"NO");
+        }];
+    [url autorelease];
 }
 
-// Open URL
-
-- (void)displayURL:(NSURL *)url {
-    [[UIApplication sharedApplication]openURL:url options:@{} completionHandler:nil];
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewAutomaticDimension;
 }
 
 - (void)dealloc
 {
     [_feedTableView release];
     [_dataSource release];
+    [_feedService release];
     [super dealloc];
 }
 
