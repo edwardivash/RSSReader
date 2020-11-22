@@ -35,7 +35,9 @@
     self.navigationItem.title = @"RSSReader";
     
     // Table view setup
-    self.feedTableView = [[UITableView alloc]init];
+    UITableView *tableView = [[UITableView alloc]init];
+    self.feedTableView = tableView;
+    [tableView release];
     self.feedTableView.translatesAutoresizingMaskIntoConstraints = NO;
     self.feedTableView.delegate = self;
     self.feedTableView.dataSource = self;
@@ -88,12 +90,12 @@
 #pragma mark - Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *urlString = self.dataSource[indexPath.row].link;
-    NSURL *url = [NSURL URLWithString:urlString];
+    NSString *urlString = [NSString stringWithString:self.dataSource[indexPath.row].link];
+    NSString *dataStr = [urlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSURL *url = [NSURL URLWithString:dataStr];
     [[UIApplication sharedApplication]openURL:url options:@{} completionHandler:^(BOOL openUrl) {
         NSLog(@"%@", openUrl ? @"Yes":@"NO");
         }];
-    [url autorelease];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

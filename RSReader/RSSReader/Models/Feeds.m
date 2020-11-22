@@ -10,11 +10,12 @@
 @implementation Feeds
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
-    if (self = [super init]) {
+    self = [super init];
+    if (self) {
         _title = [dictionary[@"title"]copy];
         _descript = [dictionary[@"description"]copy];
         _link = [dictionary[@"link"]copy];
-        _pubDate = [dictionary[@"pubDate"]copy];
+        _pubDate = [[self parseDate:dictionary[@"pubDate"]]copy];
     }
     return self;
 }
@@ -22,17 +23,19 @@
 #pragma mark - Interface
 
 -(NSString *)parseDate:(NSString *)oldDateString {
+    NSString *fixedString = [oldDateString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSDateFormatter *oldFormatter = [NSDateFormatter new];
-    [oldFormatter setDateFormat:@"EE, d LLLL YYYY HH:mm:ss Z"];
-    NSDate *oldDate = [oldFormatter dateFromString:oldDateString];
-
+    [oldFormatter setDateFormat:@"EEE, dd MMM yyyy HH:mm:ss ZZZ"];
+    NSDate *oldDate = [oldFormatter dateFromString:fixedString];
+    
     NSDateFormatter *newFormatter = [NSDateFormatter new];
-    [newFormatter setDateFormat:@"YYYY/MM/dd"];
-    NSString *newDateString = [newFormatter stringFromDate:oldDate];
+    [newFormatter setDateFormat:@"dd.MM.yyyy HH:mm"];
+    NSString *formattedString = [newFormatter stringFromDate:oldDate];
     [oldFormatter release];
     [newFormatter release];
-    return newDateString;
+    return formattedString;
 }
+
 
 - (void)dealloc
 {
@@ -42,5 +45,6 @@
     [_link release];
     [super dealloc];
 }
+
 
 @end
