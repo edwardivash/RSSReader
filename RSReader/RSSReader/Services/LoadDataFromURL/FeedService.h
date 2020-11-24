@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RSParserProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,7 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FeedService : NSObject
 
+@property (nonatomic, retain) id<RSParserProtocol> parser;
 - (void)loadFeeds:(void (^)(NSArray<Feeds *> *, NSError *))completion;
+- (instancetype)initWithParser:(id<RSParserProtocol>)parser;
 
 @end
 

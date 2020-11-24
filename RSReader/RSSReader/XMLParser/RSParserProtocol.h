@@ -1,8 +1,8 @@
 //
-//  RSParserProtocol.m
+//  RSParserProtocol.h
 //  RSSReader
 //
-//  Created by Eduard Ivash on 19.11.20.
+//  Created by Eduard Ivash on 24.11.20.
 //
 
 #import <Foundation/Foundation.h>

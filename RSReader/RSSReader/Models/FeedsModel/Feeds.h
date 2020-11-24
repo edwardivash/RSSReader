@@ -11,10 +11,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Feeds : NSObject
 
-@property (nonatomic,copy) NSString *title;
-@property (nonatomic,copy) NSString *descript;
-@property (nonatomic,copy) NSString *link;
-@property (nonatomic,copy) NSString *pubDate;
+@property (nonatomic,copy) NSString *feedsTitle;
+@property (nonatomic,copy) NSString *feedsDescription;
+@property (nonatomic,copy) NSString *feedsLink;
+@property (nonatomic,copy) NSString *feedsPubDate;
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

@@ -10,24 +10,38 @@
 
 @implementation FeedService
 
+- (instancetype)initWithParser:(id<RSParserProtocol>)parser {
+    self = [super init];
+    if (self) {
+        _parser = parser;
+    }
+    return self;
+}
+
+
 - (void)loadFeeds:(void (^)(NSArray<Feeds *> *, NSError *))completion {
-    
     NSURL *url = [NSURL URLWithString:@"https://news.tut.by/rss/index.rss"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
-                                                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
-            completion(nil, error);
+            completion(nil,error);
+            NSLog(@"Eror in load feeds method!");
             return;
-        } else {
-            RSXmlParser *parser = [[RSXmlParser alloc]init];
-            [parser parseFeeds:data completion:completion];
-            [parser release];
         }
-    }];
 
+        [self.parser parseFeeds:data completion:completion];
+    }];
+    
     [dataTask resume];
+}
+
+
+- (void)dealloc
+{
+    [_parser release];
+    [super dealloc];
 }
 
 @end

@@ -6,11 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RSParserProtocol.m"
+#import "RSParserProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface RSXmlParser : NSObject <RSParserProtocol>
+
 
 @end
 

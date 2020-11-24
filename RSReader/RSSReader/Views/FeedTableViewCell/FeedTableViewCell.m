@@ -17,8 +17,8 @@
 
 - (void)configureFeedItem:(Feeds *)feed {
     self.feedItem = feed;
-    self.feedLabel.text = feed.title;
-    self.pubDateLabel.text = feed.pubDate;
+    self.feedLabel.text = self.feedItem.feedsTitle;
+    self.pubDateLabel.text = self.feedItem.feedsPubDate;
 }
 
 

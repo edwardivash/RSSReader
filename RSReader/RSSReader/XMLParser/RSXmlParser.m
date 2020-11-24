@@ -7,6 +7,7 @@
 
 #import "RSXmlParser.h"
 #import "Feeds.h"
+#import "NSString+DateFormatter.h"
 
 @interface RSXmlParser () <NSXMLParserDelegate>
 
@@ -23,11 +24,16 @@
 
 - (void)parseFeeds:(NSData *)data completion:(void (^)(NSArray<Feeds *> *, NSError *))completion {
     self.completion = completion;
-    NSXMLParser *parser = [[NSXMLParser alloc]initWithData:data];
-    parser.delegate = self;
-    [parser parse];
-    [parser release];
+    if (_completion) {
+        NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];
+        parser.delegate = self;
+        [parser parse];
+        [parser release];
+    } else {
+        NSLog(@"Nil completion");
+    }
 }
+
 
 #pragma mark - ParserDelegate
 
@@ -49,13 +55,13 @@ didStartElement:(NSString *)elementName
     attributes:(NSDictionary<NSString *,NSString *> *)attributeDict {
     
     if ([elementName isEqualToString:@"title"]) {
-      self.parsingString = [NSMutableString string];
+        self.parsingString = [NSMutableString string];
     } else if ([elementName isEqualToString:@"link"]) {
-      self.parsingString = [NSMutableString string];
+        self.parsingString = [NSMutableString string];
     } else if ([elementName isEqualToString:@"pubDate"]) {
-      self.parsingString = [NSMutableString string];
+        self.parsingString = [NSMutableString string];
     } else if ([elementName isEqualToString:@"description"]) {
-      self.parsingString = [NSMutableString string];
+        self.parsingString = [NSMutableString string];
     }
     
     if ([elementName isEqualToString:@"item"]) {
@@ -70,7 +76,7 @@ didStartElement:(NSString *)elementName
     } else if ([elementName isEqualToString:@"link"]) {
         self.feedDictionary[elementName] = self.parsingString;
     } else if ([elementName isEqualToString:@"pubDate"]) {
-      self.feedDictionary[elementName] = self.parsingString;
+        self.feedDictionary[elementName] = [self.parsingString dateFormatter:self.parsingString];
     } else if ([elementName isEqualToString:@"description"]) {
         self.feedDictionary[elementName] = self.parsingString;
     }
@@ -95,6 +101,7 @@ didStartElement:(NSString *)elementName
 
 #pragma mark - Private methods
 
+
 - (void)resetParserState {
     [_completion release];
     _completion = nil;
@@ -116,5 +123,6 @@ didStartElement:(NSString *)elementName
     [_feeds release];
     [super dealloc];
 }
+
 
 @end
