@@ -20,10 +20,10 @@
         _feedsDescription = [dictionary[@"description"] copy];
         _feedsLink = [dictionary[@"link"] copy];
         _feedsPubDate = [dictionary[@"pubDate"] copy];
+        
+        return self;
     }
-    return self;
 }
-
 
 - (void)dealloc
 {
@@ -33,6 +33,5 @@
     [_feedsLink release];
     [super dealloc];
 }
-
 
 @end

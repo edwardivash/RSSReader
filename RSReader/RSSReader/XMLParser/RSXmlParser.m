@@ -8,10 +8,13 @@
 #import "RSXmlParser.h"
 #import "Feeds.h"
 #import "NSString+DateFormatter.h"
+#import "NSXMLParser+SetDataWithDelegate.h"
 
 @interface RSXmlParser () <NSXMLParserDelegate>
 
 @property (nonatomic, copy) void (^completion)(NSArray<Feeds *> *, NSError *);
+
+@property (nonatomic, retain) NSXMLParser *parser;
 
 @property (nonatomic, retain) NSMutableDictionary *feedDictionary;
 @property (nonatomic, retain) NSMutableDictionary *parsingDictionary;
@@ -25,15 +28,12 @@
 - (void)parseFeeds:(NSData *)data completion:(void (^)(NSArray<Feeds *> *, NSError *))completion {
     self.completion = completion;
     if (_completion) {
-        NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];
-        parser.delegate = self;
-        [parser parse];
-        [parser release];
+        self.parser = [NSXMLParser setData:data withDelegate:self];
+        [self.parser parse];
     } else {
         NSLog(@"Nil completion");
     }
 }
-
 
 #pragma mark - ParserDelegate
 
@@ -54,7 +54,9 @@ didStartElement:(NSString *)elementName
  qualifiedName:(NSString *)qName
     attributes:(NSDictionary<NSString *,NSString *> *)attributeDict {
     
-    if ([elementName isEqualToString:@"title"]) {
+    if ([elementName isEqualToString:@"item"]) {
+        self.feedDictionary = [NSMutableDictionary dictionary];
+    } else if ([elementName isEqualToString:@"title"]) {
         self.parsingString = [NSMutableString string];
     } else if ([elementName isEqualToString:@"link"]) {
         self.parsingString = [NSMutableString string];
@@ -63,15 +65,15 @@ didStartElement:(NSString *)elementName
     } else if ([elementName isEqualToString:@"description"]) {
         self.parsingString = [NSMutableString string];
     }
-    
-    if ([elementName isEqualToString:@"item"]) {
-        self.feedDictionary = [NSMutableDictionary dictionary];
-    }
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
     
-    if ([elementName isEqualToString:@"title"]) {
+    if ([elementName isEqualToString:@"item"]) {
+        Feeds *feedObj = [[Feeds alloc]initWithDictionary:self.feedDictionary];
+        [self.feeds addObject:feedObj];
+        [feedObj release];
+    } else if ([elementName isEqualToString:@"title"]) {
         self.feedDictionary[elementName] = self.parsingString;
     } else if ([elementName isEqualToString:@"link"]) {
         self.feedDictionary[elementName] = self.parsingString;
@@ -79,12 +81,6 @@ didStartElement:(NSString *)elementName
         self.feedDictionary[elementName] = [self.parsingString dateFormatter:self.parsingString];
     } else if ([elementName isEqualToString:@"description"]) {
         self.feedDictionary[elementName] = self.parsingString;
-    }
-    
-    if ([elementName isEqualToString:@"item"]) {
-        Feeds *feedObj = [[Feeds alloc]initWithDictionary:self.feedDictionary];
-        [self.feeds addObject:feedObj];
-        [feedObj release];
     }
 }
 
@@ -101,7 +97,6 @@ didStartElement:(NSString *)elementName
 
 #pragma mark - Private methods
 
-
 - (void)resetParserState {
     [_completion release];
     _completion = nil;
@@ -113,7 +108,6 @@ didStartElement:(NSString *)elementName
     _parsingString = nil;
 }
 
-
 - (void)dealloc
 {
     [_completion release];
@@ -121,8 +115,8 @@ didStartElement:(NSString *)elementName
     [_parsingString release];
     [_parsingDictionary release];
     [_feeds release];
+    [_parser release];
     [super dealloc];
 }
-
 
 @end

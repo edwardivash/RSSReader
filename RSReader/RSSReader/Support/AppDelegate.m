@@ -19,6 +19,7 @@
     
     UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen]bounds]];
     self.window = window;
+    self.window.backgroundColor = UIColor.whiteColor;
     FeedListVC *feedListVC = [FeedListVC new];
     UINavigationController *nvc = [[UINavigationController alloc]initWithRootViewController:feedListVC];
     

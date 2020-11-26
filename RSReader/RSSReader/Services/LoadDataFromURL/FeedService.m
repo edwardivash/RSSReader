@@ -18,12 +18,10 @@
     return self;
 }
 
-
 - (void)loadFeeds:(void (^)(NSArray<Feeds *> *, NSError *))completion {
     NSURL *url = [NSURL URLWithString:@"https://news.tut.by/rss/index.rss"];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     NSURLSession *session = [NSURLSession sharedSession];
-    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
+    NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url
                                                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             completion(nil,error);
@@ -36,7 +34,6 @@
     
     [dataTask resume];
 }
-
 
 - (void)dealloc
 {

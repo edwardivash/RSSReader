@@ -10,22 +10,15 @@
 
 @implementation FeedTableViewCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
-
 - (void)configureFeedItem:(Feeds *)feed {
-    self.feedItem = feed;
-    self.feedLabel.text = self.feedItem.feedsTitle;
-    self.pubDateLabel.text = self.feedItem.feedsPubDate;
+    self.feedLabel.text = feed.feedsTitle;
+    self.pubDateLabel.text = feed.feedsPubDate;
 }
-
 
 - (void)dealloc {
     [_feedLabel release];
     [_pubDateLabel release];
-    [_feedItem release];
     [super dealloc];
 }
+
 @end

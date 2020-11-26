@@ -8,8 +8,6 @@
 #import <Foundation/Foundation.h>
 #import "RSParserProtocol.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class Feeds;
 
 @interface FeedService : NSObject
@@ -19,5 +17,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithParser:(id<RSParserProtocol>)parser;
 
 @end
-
-NS_ASSUME_NONNULL_END

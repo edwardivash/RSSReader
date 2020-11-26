@@ -11,7 +11,6 @@
 #import "FeedService.h"
 #import "RSXmlParser.h"
 
-
 @interface FeedListVC () <UITableViewDelegate, UITableViewDataSource>
 
 @property (retain, nonatomic)NSArray<Feeds*> *dataSource;
@@ -22,19 +21,22 @@
 
 @implementation FeedListVC
 
+#pragma mark - ViewController LifeCycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self initData];
     [self feedsLoader];
-    [self setupViews];
 }
 
-
--(void)setupViews {
-    
-    // Navigation items setup
+- (void)viewWillAppear:(BOOL)animated {
     self.navigationItem.title = @"RSSReader";
+}
+
+#pragma mark - TableView getter customize
+
+- (UITableView *)feedTableView {
     
     // Table view setup
     if (!_feedTableView) {
@@ -52,6 +54,7 @@
             [_feedTableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
         ]];
     }
+    return _feedTableView;
 }
 
 #pragma mark - Feeds load
@@ -64,20 +67,19 @@
 }
 
 -(void)feedsLoader {
+    
     __block typeof (self)weakSelf = self;
-    [_feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
-        if (!error) {
-            weakSelf.dataSource = feedsArray;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.feedTableView reloadData];
-            });
-        } else {
-            NSLog(@"%@",error);
-        }
-    }];
+        [_feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
+            if (!error) {
+                weakSelf.dataSource = feedsArray;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.feedTableView reloadData];
+                });
+            } else {
+                NSLog(@"Error in feedsLoader.");
+            }
+        }];
 }
-
-
 
 #pragma mark - DataSource
 
