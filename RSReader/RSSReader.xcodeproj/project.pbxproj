@@ -119,7 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				D723D9592562E2FE003DF465 /* RSSReader */,
-				D75B30FC256D0EB5009910B2 /* Extensions */,
+				D75B30FC256D0EB5009910B2 /* Categories */,
 				D723D9582562E2FE003DF465 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -209,13 +209,13 @@
 			path = NSXMLParser;
 			sourceTree = "<group>";
 		};
-		D75B30FC256D0EB5009910B2 /* Extensions */ = {
+		D75B30FC256D0EB5009910B2 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
 				D756469B257010500074F03F /* NSXMLParser */,
 				D756469225700B5D0074F03F /* NSDateFormatter */,
 			);
-			path = Extensions;
+			path = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

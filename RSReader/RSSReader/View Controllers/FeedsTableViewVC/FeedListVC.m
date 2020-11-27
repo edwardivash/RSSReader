@@ -16,6 +16,7 @@
 @property (retain, nonatomic)NSArray<Feeds*> *dataSource;
 @property (retain, nonatomic) UITableView *feedTableView;
 @property (retain, nonatomic) FeedService *feedService;
+@property (retain, nonatomic) RSXmlParser *parser;
 
 @end
 
@@ -26,12 +27,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationItem.title = @"RSSReader";
+
     [self initData];
     [self feedsLoader];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    self.navigationItem.title = @"RSSReader";
 }
 
 #pragma mark - TableView getter customize
@@ -61,8 +60,9 @@
 
 -(void)initData {
     if (!_feedService && !_dataSource) {
-        _feedService = [[FeedService alloc]initWithParser:[RSXmlParser new]];
+        _parser = [RSXmlParser new];
         _dataSource = [NSArray new];
+        _feedService = [[FeedService alloc]initWithParser:_parser];
     }
 }
 
@@ -114,6 +114,7 @@
     [_feedTableView release];
     [_dataSource release];
     [_feedService release];
+    [_parser release];
     [super dealloc];
 }
 
