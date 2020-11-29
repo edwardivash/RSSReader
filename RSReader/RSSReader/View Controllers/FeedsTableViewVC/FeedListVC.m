@@ -6,17 +6,9 @@
 //
 
 #import "FeedListVC.h"
-#import "Feeds.h"
-#import "FeedTableViewCell.h"
-#import "FeedService.h"
-#import "RSXmlParser.h"
+#import "NSObject+FeedsLoader.h"
 
 @interface FeedListVC () <UITableViewDelegate, UITableViewDataSource>
-
-@property (retain, nonatomic)NSArray<Feeds*> *dataSource;
-@property (retain, nonatomic) UITableView *feedTableView;
-@property (retain, nonatomic) FeedService *feedService;
-@property (retain, nonatomic) RSXmlParser *parser;
 
 @end
 
@@ -28,9 +20,7 @@
     [super viewDidLoad];
     
     self.navigationItem.title = @"RSSReader";
-
-    [self initData];
-    [self feedsLoader];
+    [self feedsLoader:_feedService feedViewController:self];
 }
 
 #pragma mark - TableView getter customize
@@ -56,29 +46,11 @@
     return _feedTableView;
 }
 
-#pragma mark - Feeds load
+#pragma mark - Parser Getter
 
--(void)initData {
-    if (!_feedService && !_dataSource) {
-        _parser = [RSXmlParser new];
-        _dataSource = [NSArray new];
-        _feedService = [[FeedService alloc]initWithParser:_parser];
-    }
-}
-
--(void)feedsLoader {
-    
-    __block typeof (self)weakSelf = self;
-        [_feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
-            if (!error) {
-                weakSelf.dataSource = feedsArray;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.feedTableView reloadData];
-                });
-            } else {
-                NSLog(@"Error in feedsLoader.");
-            }
-        }];
+- (RSXmlParser *)parser {
+    _parser = [RSXmlParser new];
+    return _parser;
 }
 
 #pragma mark - DataSource
@@ -113,6 +85,7 @@
 {
     [_feedTableView release];
     [_dataSource release];
+    [_feedService release];
     [_feedService release];
     [_parser release];
     [super dealloc];

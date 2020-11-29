@@ -19,6 +19,7 @@
 		D73C3C8C25658A9A0097261C /* FeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D73C3C8A25658A9A0097261C /* FeedTableViewCell.xib */; };
 		D756469825700E020074F03F /* NSXMLParser+SetDataWithDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D756469725700E020074F03F /* NSXMLParser+SetDataWithDelegate.m */; };
 		D75B3110256D1A5B009910B2 /* NSString+DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D75B310F256D1A5B009910B2 /* NSString+DateFormatter.m */; };
+		D7738A76257288A500D27338 /* NSObject+FeedsLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = D7738A75257288A400D27338 /* NSObject+FeedsLoader.m */; };
 		D789E13225640A2100AAE598 /* RSSReader.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D789E13125640A2100AAE598 /* RSSReader.rtf */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,8 @@
 		D75B310D256D19E6009910B2 /* NSString+DateFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+DateFormatter.h"; sourceTree = "<group>"; };
 		D75B310F256D1A5B009910B2 /* NSString+DateFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+DateFormatter.m"; sourceTree = "<group>"; };
 		D75B3114256D618D009910B2 /* RSParserProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSParserProtocol.h; sourceTree = "<group>"; };
+		D7738A74257288A400D27338 /* NSObject+FeedsLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+FeedsLoader.h"; sourceTree = "<group>"; };
+		D7738A75257288A400D27338 /* NSObject+FeedsLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+FeedsLoader.m"; sourceTree = "<group>"; };
 		D789E13125640A2100AAE598 /* RSSReader.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = RSSReader.rtf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -212,10 +215,20 @@
 		D75B30FC256D0EB5009910B2 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				D7738A78257288AF00D27338 /* FeedsLoader */,
 				D756469B257010500074F03F /* NSXMLParser */,
 				D756469225700B5D0074F03F /* NSDateFormatter */,
 			);
 			path = Categories;
+			sourceTree = "<group>";
+		};
+		D7738A78257288AF00D27338 /* FeedsLoader */ = {
+			isa = PBXGroup;
+			children = (
+				D7738A74257288A400D27338 /* NSObject+FeedsLoader.h */,
+				D7738A75257288A400D27338 /* NSObject+FeedsLoader.m */,
+			);
+			path = FeedsLoader;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -290,6 +303,7 @@
 			files = (
 				D73C3C8B25658A9A0097261C /* FeedTableViewCell.m in Sources */,
 				D75B3110256D1A5B009910B2 /* NSString+DateFormatter.m in Sources */,
+				D7738A76257288A500D27338 /* NSObject+FeedsLoader.m in Sources */,
 				D723D9AF2563C890003DF465 /* FeedListVC.m in Sources */,
 				D723D9B92563D2DC003DF465 /* Feeds.m in Sources */,
 				D70D1266256666B700DE4ECF /* RSXmlParser.m in Sources */,
