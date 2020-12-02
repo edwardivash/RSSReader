@@ -8,6 +8,12 @@
 #import "FeedService.h"
 #import "RSXmlParser.h"
 
+@interface FeedService ()
+
+@property (nonatomic, retain) id<RSParserProtocol> parser;
+
+@end
+
 @implementation FeedService
 
 - (instancetype)initWithParser:(id<RSParserProtocol>)parser {

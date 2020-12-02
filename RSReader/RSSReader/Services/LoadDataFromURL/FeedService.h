@@ -12,7 +12,6 @@
 
 @interface FeedService : NSObject
 
-@property (nonatomic, retain) id<RSParserProtocol> parser;
 - (void)loadFeeds:(void (^)(NSArray<Feeds *> *, NSError *))completion;
 - (instancetype)initWithParser:(id<RSParserProtocol>)parser;
 
