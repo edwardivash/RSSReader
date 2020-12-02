@@ -48,8 +48,8 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
-                <outlet property="feedLabel" destination="GSy-ir-SUm" id="UCx-hr-wFB"/>
-                <outlet property="pubDateLabel" destination="m4B-Wl-vSX" id="ZYz-cD-JsS"/>
+                <outlet property="feedLabel" destination="GSy-ir-SUm" id="776-OG-ccy"/>
+                <outlet property="pubDateLabel" destination="m4B-Wl-vSX" id="ZFh-zd-Z00"/>
             </connections>
             <point key="canvasLocation" x="-34.057971014492757" y="19.754464285714285"/>
         </tableViewCell>

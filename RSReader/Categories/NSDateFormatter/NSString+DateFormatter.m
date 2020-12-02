@@ -10,7 +10,7 @@
 
 @implementation NSString (DateFormatter)
 
--(NSString *)dateFormatter:(NSString *)oldDateString {
++(NSString *)dateFormatter:(NSString *)oldDateString {
     if (oldDateString) {
         NSString *fixedString = [oldDateString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSDateFormatter *oldFormatter = [NSDateFormatter new];

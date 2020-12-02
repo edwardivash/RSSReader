@@ -7,25 +7,29 @@
 
 #import "Feeds.h"
 
+NSString *const kFeedItem = @"item";
+NSString *const kFeedsTitle = @"title";
+NSString *const kFeedsDescription = @"description";
+NSString *const kFeedsLink = @"link";
+NSString *const kFeedsPubDate = @"pubDate";
+
 @implementation Feeds
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     
-    if (!dictionary.count || !dictionary) {
-        NSLog(@"Dictionary is empty.");
-        return nil;
-    } else {
-        self = [super init];
-        _feedsTitle = [dictionary[@"title"] copy];
-        _feedsDescription = [dictionary[@"description"] copy];
-        _feedsLink = [dictionary[@"link"] copy];
-        _feedsPubDate = [dictionary[@"pubDate"] copy];
-        return self;
+    if (self = [super init]) {
+        _feedsItem = [dictionary[kFeedItem]copy];
+        _feedsTitle = [dictionary[kFeedsTitle]copy];
+        _feedsDescription = [dictionary[kFeedsDescription]copy];
+        _feedsLink = [dictionary[kFeedsLink]copy];
+        _feedsPubDate = [dictionary[kFeedsPubDate]copy];
     }
+    return self;
 }
 
 - (void)dealloc
 {
+    [_feedsItem release];
     [_feedsTitle release];
     [_feedsPubDate release];
     [_feedsDescription release];

@@ -6,12 +6,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Feeds.h"
+
+@class Feeds;
 
 @interface FeedTableViewCell : UITableViewCell
-
-@property (retain, nonatomic) IBOutlet UILabel *feedLabel;
-@property (retain, nonatomic) IBOutlet UILabel *pubDateLabel;
 
 -(void)configureFeedItem:(Feeds *)feed;
 

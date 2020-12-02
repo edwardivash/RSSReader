@@ -25,7 +25,7 @@
                                                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             completion(nil,error);
-            NSLog(@"Eror in load feeds method!");
+            NSLog(@"Eror - %@",error);
             return;
         }
 

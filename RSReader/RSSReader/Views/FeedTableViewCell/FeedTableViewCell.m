@@ -8,6 +8,13 @@
 #import "FeedTableViewCell.h"
 #import "Feeds.h"
 
+@interface FeedTableViewCell ()
+
+@property (retain, nonatomic) IBOutlet UILabel *feedLabel;
+@property (retain, nonatomic) IBOutlet UILabel *pubDateLabel;
+
+@end
+
 @implementation FeedTableViewCell
 
 - (void)configureFeedItem:(Feeds *)feed {

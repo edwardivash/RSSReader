@@ -6,9 +6,19 @@
 //
 
 #import "FeedListVC.h"
-#import "NSObject+FeedsLoader.h"
+#import "FeedTableViewCell.h"
+#import "FeedService.h"
+#import "RSXmlParser.h"
+#import "Feeds.h"
+
+NSString *const kNavigationBarTitle = @"RSSReader";
 
 @interface FeedListVC () <UITableViewDelegate, UITableViewDataSource>
+
+@property (retain, nonatomic) UITableView *feedTableView;
+@property (retain, nonatomic) FeedService *feedService;
+@property (retain, nonatomic) RSXmlParser *parser;
+@property (retain, nonatomic) NSArray<Feeds*>*dataSource;
 
 @end
 
@@ -18,9 +28,28 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.navigationItem.title = kNavigationBarTitle;
+    [self feedsLoader];
+}
+
+#pragma mark - Feeds Loader Private Method
+
+-(void)feedsLoader {
     
-    self.navigationItem.title = @"RSSReader";
-    [self feedsLoader:_feedService feedViewController:self];
+        if (!self.feedService) {
+            self.feedService = [[[FeedService alloc]initWithParser:self.parser]autorelease];
+            [self.feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
+                if (!error) {
+                    self.dataSource = feedsArray;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.feedTableView reloadData];
+                    });
+                } else {
+                    NSLog(@"Error - %@",error);
+                }
+            }];
+        }
 }
 
 #pragma mark - TableView getter customize
@@ -85,7 +114,6 @@
 {
     [_feedTableView release];
     [_dataSource release];
-    [_feedService release];
     [_feedService release];
     [_parser release];
     [super dealloc];

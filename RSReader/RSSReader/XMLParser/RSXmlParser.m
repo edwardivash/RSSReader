@@ -27,12 +27,8 @@
 
 - (void)parseFeeds:(NSData *)data completion:(void (^)(NSArray<Feeds *> *, NSError *))completion {
     self.completion = completion;
-    if (_completion) {
-        self.parser = [NSXMLParser setData:data withDelegate:self];
-        [self.parser parse];
-    } else {
-        NSLog(@"Nil completion");
-    }
+    self.parser = [NSXMLParser setData:data withDelegate:self];
+    [self.parser parse];
 }
 
 #pragma mark - ParserDelegate
@@ -54,32 +50,32 @@ didStartElement:(NSString *)elementName
  qualifiedName:(NSString *)qName
     attributes:(NSDictionary<NSString *,NSString *> *)attributeDict {
     
-    if ([elementName isEqualToString:@"item"]) {
+    if ([elementName isEqualToString:kFeedItem]) {
         self.feedDictionary = [NSMutableDictionary dictionary];
-    } else if ([elementName isEqualToString:@"title"]) {
+    } else if ([elementName isEqualToString:kFeedsTitle]) {
         self.parsingString = [NSMutableString string];
-    } else if ([elementName isEqualToString:@"link"]) {
+    } else if ([elementName isEqualToString:kFeedsLink]) {
         self.parsingString = [NSMutableString string];
-    } else if ([elementName isEqualToString:@"pubDate"]) {
+    } else if ([elementName isEqualToString:kFeedsPubDate]) {
         self.parsingString = [NSMutableString string];
-    } else if ([elementName isEqualToString:@"description"]) {
+    } else if ([elementName isEqualToString:kFeedsDescription]) {
         self.parsingString = [NSMutableString string];
     }
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
     
-    if ([elementName isEqualToString:@"item"]) {
+    if ([elementName isEqualToString:kFeedItem]) {
         Feeds *feedObj = [[Feeds alloc]initWithDictionary:self.feedDictionary];
         [self.feeds addObject:feedObj];
         [feedObj release];
-    } else if ([elementName isEqualToString:@"title"]) {
+    } else if ([elementName isEqualToString:kFeedsTitle]) {
         self.feedDictionary[elementName] = self.parsingString;
-    } else if ([elementName isEqualToString:@"link"]) {
+    } else if ([elementName isEqualToString:kFeedsLink]) {
         self.feedDictionary[elementName] = self.parsingString;
-    } else if ([elementName isEqualToString:@"pubDate"]) {
-        self.feedDictionary[elementName] = [self.parsingString dateFormatter:self.parsingString];
-    } else if ([elementName isEqualToString:@"description"]) {
+    } else if ([elementName isEqualToString:kFeedsPubDate]) {
+        self.feedDictionary[elementName] = [NSString dateFormatter:self.parsingString];
+    } else if ([elementName isEqualToString:kFeedsDescription]) {
         self.feedDictionary[elementName] = self.parsingString;
     }
 }

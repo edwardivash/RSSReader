@@ -9,6 +9,6 @@
 
 @interface NSString (DateFormatter)
 
--(NSString *)dateFormatter:(NSString *)oldDateString;
++(NSString *)dateFormatter:(NSString *)oldDateString;
 
 @end
