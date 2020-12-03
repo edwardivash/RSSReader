@@ -28,7 +28,7 @@ NSString *const kNavigationBarTitle = @"RSSReader";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     self.navigationItem.title = kNavigationBarTitle;
     [self feedsLoader];
 }
