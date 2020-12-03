@@ -7,14 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D70D125725665CBC00DE4ECF /* FeedService.m in Sources */ = {isa = PBXBuildFile; fileRef = D70D125625665CBC00DE4ECF /* FeedService.m */; };
+		D70D1266256666B700DE4ECF /* RSXmlParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D70D1265256666B700DE4ECF /* RSXmlParser.m */; };
 		D723D95C2562E2FE003DF465 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D723D95B2562E2FE003DF465 /* AppDelegate.m */; };
 		D723D9672562E304003DF465 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D723D9662562E304003DF465 /* Assets.xcassets */; };
 		D723D96A2562E304003DF465 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D723D9682562E304003DF465 /* LaunchScreen.storyboard */; };
 		D723D96D2562E304003DF465 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D723D96C2562E304003DF465 /* main.m */; };
-		D723D99A2562EDB8003DF465 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D723D9992562EDB8003DF465 /* ViewController.m */; };
+		D723D9AF2563C890003DF465 /* FeedListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D723D9AD2563C890003DF465 /* FeedListVC.m */; };
+		D723D9B92563D2DC003DF465 /* Feeds.m in Sources */ = {isa = PBXBuildFile; fileRef = D723D9B82563D2DC003DF465 /* Feeds.m */; };
+		D73C3C8B25658A9A0097261C /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D73C3C8925658A9A0097261C /* FeedTableViewCell.m */; };
+		D73C3C8C25658A9A0097261C /* FeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D73C3C8A25658A9A0097261C /* FeedTableViewCell.xib */; };
+		D756469825700E020074F03F /* NSXMLParser+SetDataWithDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D756469725700E020074F03F /* NSXMLParser+SetDataWithDelegate.m */; };
+		D75B3110256D1A5B009910B2 /* NSString+DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D75B310F256D1A5B009910B2 /* NSString+DateFormatter.m */; };
+		D789E13225640A2100AAE598 /* RSSReader.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D789E13125640A2100AAE598 /* RSSReader.rtf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D70D125525665CBC00DE4ECF /* FeedService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedService.h; sourceTree = "<group>"; };
+		D70D125625665CBC00DE4ECF /* FeedService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedService.m; sourceTree = "<group>"; };
+		D70D1264256666B700DE4ECF /* RSXmlParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSXmlParser.h; sourceTree = "<group>"; };
+		D70D1265256666B700DE4ECF /* RSXmlParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RSXmlParser.m; sourceTree = "<group>"; };
 		D723D9572562E2FE003DF465 /* RSSReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSSReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D723D95A2562E2FE003DF465 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D723D95B2562E2FE003DF465 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -22,8 +34,19 @@
 		D723D9692562E304003DF465 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D723D96B2562E304003DF465 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D723D96C2562E304003DF465 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D723D9982562EDB8003DF465 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		D723D9992562EDB8003DF465 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		D723D9AC2563C890003DF465 /* FeedListVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedListVC.h; sourceTree = "<group>"; };
+		D723D9AD2563C890003DF465 /* FeedListVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedListVC.m; sourceTree = "<group>"; };
+		D723D9B72563D2DC003DF465 /* Feeds.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Feeds.h; sourceTree = "<group>"; };
+		D723D9B82563D2DC003DF465 /* Feeds.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Feeds.m; sourceTree = "<group>"; };
+		D73C3C8825658A9A0097261C /* FeedTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedTableViewCell.h; sourceTree = "<group>"; };
+		D73C3C8925658A9A0097261C /* FeedTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewCell.m; sourceTree = "<group>"; };
+		D73C3C8A25658A9A0097261C /* FeedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedTableViewCell.xib; sourceTree = "<group>"; };
+		D756469525700DB20074F03F /* NSXMLParser+SetDataWithDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSXMLParser+SetDataWithDelegate.h"; sourceTree = "<group>"; };
+		D756469725700E020074F03F /* NSXMLParser+SetDataWithDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSXMLParser+SetDataWithDelegate.m"; sourceTree = "<group>"; };
+		D75B310D256D19E6009910B2 /* NSString+DateFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+DateFormatter.h"; sourceTree = "<group>"; };
+		D75B310F256D1A5B009910B2 /* NSString+DateFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+DateFormatter.m"; sourceTree = "<group>"; };
+		D75B3114256D618D009910B2 /* RSParserProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSParserProtocol.h; sourceTree = "<group>"; };
+		D789E13125640A2100AAE598 /* RSSReader.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = RSSReader.rtf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,10 +60,66 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D70D125A25665CD800DE4ECF /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				D722DAD9256BEF00007FC3C3 /* LoadDataFromURL */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		D70D1261256665B700DE4ECF /* XMLParser */ = {
+			isa = PBXGroup;
+			children = (
+				D75B3114256D618D009910B2 /* RSParserProtocol.h */,
+				D70D1264256666B700DE4ECF /* RSXmlParser.h */,
+				D70D1265256666B700DE4ECF /* RSXmlParser.m */,
+			);
+			path = XMLParser;
+			sourceTree = "<group>";
+		};
+		D722DAD3256BEE8A007FC3C3 /* FeedTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				D73C3C8825658A9A0097261C /* FeedTableViewCell.h */,
+				D73C3C8925658A9A0097261C /* FeedTableViewCell.m */,
+				D73C3C8A25658A9A0097261C /* FeedTableViewCell.xib */,
+			);
+			path = FeedTableViewCell;
+			sourceTree = "<group>";
+		};
+		D722DAD5256BEEB3007FC3C3 /* FeedsModel */ = {
+			isa = PBXGroup;
+			children = (
+				D723D9B72563D2DC003DF465 /* Feeds.h */,
+				D723D9B82563D2DC003DF465 /* Feeds.m */,
+			);
+			path = FeedsModel;
+			sourceTree = "<group>";
+		};
+		D722DAD7256BEEC6007FC3C3 /* FeedsTableViewVC */ = {
+			isa = PBXGroup;
+			children = (
+				D723D9AC2563C890003DF465 /* FeedListVC.h */,
+				D723D9AD2563C890003DF465 /* FeedListVC.m */,
+			);
+			path = FeedsTableViewVC;
+			sourceTree = "<group>";
+		};
+		D722DAD9256BEF00007FC3C3 /* LoadDataFromURL */ = {
+			isa = PBXGroup;
+			children = (
+				D70D125525665CBC00DE4ECF /* FeedService.h */,
+				D70D125625665CBC00DE4ECF /* FeedService.m */,
+			);
+			path = LoadDataFromURL;
+			sourceTree = "<group>";
+		};
 		D723D94E2562E2FE003DF465 = {
 			isa = PBXGroup;
 			children = (
 				D723D9592562E2FE003DF465 /* RSSReader */,
+				D75B30FC256D0EB5009910B2 /* Categories */,
 				D723D9582562E2FE003DF465 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -56,16 +135,87 @@
 		D723D9592562E2FE003DF465 /* RSSReader */ = {
 			isa = PBXGroup;
 			children = (
+				D73C3C0D25643D060097261C /* Task */,
+				D723D9B22563CFAF003DF465 /* Support */,
+				D70D1261256665B700DE4ECF /* XMLParser */,
+				D70D125A25665CD800DE4ECF /* Services */,
+				D723D9BD2563D2E5003DF465 /* Models */,
+				D723D9B42563CFED003DF465 /* View Controllers */,
+				D723D9B62563D009003DF465 /* Views */,
+			);
+			path = RSSReader;
+			sourceTree = "<group>";
+		};
+		D723D9B22563CFAF003DF465 /* Support */ = {
+			isa = PBXGroup;
+			children = (
 				D723D95A2562E2FE003DF465 /* AppDelegate.h */,
 				D723D95B2562E2FE003DF465 /* AppDelegate.m */,
-				D723D9982562EDB8003DF465 /* ViewController.h */,
-				D723D9992562EDB8003DF465 /* ViewController.m */,
 				D723D9662562E304003DF465 /* Assets.xcassets */,
 				D723D9682562E304003DF465 /* LaunchScreen.storyboard */,
 				D723D96B2562E304003DF465 /* Info.plist */,
 				D723D96C2562E304003DF465 /* main.m */,
 			);
-			path = RSSReader;
+			path = Support;
+			sourceTree = "<group>";
+		};
+		D723D9B42563CFED003DF465 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D722DAD7256BEEC6007FC3C3 /* FeedsTableViewVC */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		D723D9B62563D009003DF465 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D722DAD3256BEE8A007FC3C3 /* FeedTableViewCell */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D723D9BD2563D2E5003DF465 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D722DAD5256BEEB3007FC3C3 /* FeedsModel */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D73C3C0D25643D060097261C /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				D789E13125640A2100AAE598 /* RSSReader.rtf */,
+			);
+			path = Task;
+			sourceTree = "<group>";
+		};
+		D756469225700B5D0074F03F /* NSDateFormatter */ = {
+			isa = PBXGroup;
+			children = (
+				D75B310D256D19E6009910B2 /* NSString+DateFormatter.h */,
+				D75B310F256D1A5B009910B2 /* NSString+DateFormatter.m */,
+			);
+			path = NSDateFormatter;
+			sourceTree = "<group>";
+		};
+		D756469B257010500074F03F /* NSXMLParser */ = {
+			isa = PBXGroup;
+			children = (
+				D756469525700DB20074F03F /* NSXMLParser+SetDataWithDelegate.h */,
+				D756469725700E020074F03F /* NSXMLParser+SetDataWithDelegate.m */,
+			);
+			path = NSXMLParser;
+			sourceTree = "<group>";
+		};
+		D75B30FC256D0EB5009910B2 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				D756469B257010500074F03F /* NSXMLParser */,
+				D756469225700B5D0074F03F /* NSDateFormatter */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,6 +275,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D723D96A2562E304003DF465 /* LaunchScreen.storyboard in Resources */,
+				D73C3C8C25658A9A0097261C /* FeedTableViewCell.xib in Resources */,
+				D789E13225640A2100AAE598 /* RSSReader.rtf in Resources */,
 				D723D9672562E304003DF465 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -136,9 +288,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D723D99A2562EDB8003DF465 /* ViewController.m in Sources */,
+				D73C3C8B25658A9A0097261C /* FeedTableViewCell.m in Sources */,
+				D75B3110256D1A5B009910B2 /* NSString+DateFormatter.m in Sources */,
+				D723D9AF2563C890003DF465 /* FeedListVC.m in Sources */,
+				D723D9B92563D2DC003DF465 /* Feeds.m in Sources */,
+				D70D1266256666B700DE4ECF /* RSXmlParser.m in Sources */,
 				D723D95C2562E2FE003DF465 /* AppDelegate.m in Sources */,
 				D723D96D2562E304003DF465 /* main.m in Sources */,
+				D756469825700E020074F03F /* NSXMLParser+SetDataWithDelegate.m in Sources */,
+				D70D125725665CBC00DE4ECF /* FeedService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,7 +365,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -260,7 +418,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -275,8 +433,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3M25X6SA3H;
-				INFOPLIST_FILE = RSSReader/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				INFOPLIST_FILE = "$(SRCROOT)/RSSReader/Support/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -294,8 +452,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3M25X6SA3H;
-				INFOPLIST_FILE = RSSReader/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				INFOPLIST_FILE = "$(SRCROOT)/RSSReader/Support/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
