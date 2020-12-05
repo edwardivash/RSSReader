@@ -10,15 +10,18 @@
 #import "FeedService.h"
 #import "RSXmlParser.h"
 #import "Feeds.h"
+#import "UIAlertController+ShowAlertController.h"
+#import "UIBarButtonItem+ActivityIndicator.h"
 
 NSString *const kNavigationBarTitle = @"RSSReader";
 
 @interface FeedListVC () <UITableViewDelegate, UITableViewDataSource>
 
 @property (retain, nonatomic) UITableView *feedTableView;
+@property (retain, nonatomic) UIActivityIndicatorView *activityIndicator;
 @property (retain, nonatomic) FeedService *feedService;
 @property (retain, nonatomic) RSXmlParser *parser;
-@property (retain, nonatomic) NSArray<Feeds*>*dataSource;
+@property (retain, nonatomic) NSArray<Feeds*> *dataSource;
 
 @end
 
@@ -30,26 +33,41 @@ NSString *const kNavigationBarTitle = @"RSSReader";
     [super viewDidLoad];
     
     self.navigationItem.title = kNavigationBarTitle;
-    [self feedsLoader];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+    
+    [NSThread detachNewThreadSelector:@selector(feedsLoader) toTarget:self withObject:nil];
 }
 
 #pragma mark - Feeds Loader Private Method
 
 -(void)feedsLoader {
     
-        if (!self.feedService) {
-            self.feedService = [[[FeedService alloc]initWithParser:self.parser]autorelease];
-            [self.feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
-                if (!error) {
-                    self.dataSource = feedsArray;
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.feedTableView reloadData];
-                    });
-                } else {
-                    NSLog(@"Error - %@",error);
-                }
-            }];
-        }
+    typeof (self)weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf.navigationItem setRightBarButtonItem:[UIBarButtonItem setupActivityIndicator:_activityIndicator animating:YES]];
+    });
+    
+    if (!self.feedService) {
+        self.feedService = [[[FeedService alloc]initWithParser:self.parser]autorelease];
+        [self.feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
+            if (!error) {
+                self.dataSource = feedsArray;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.navigationItem setRightBarButtonItem:[UIBarButtonItem setupActivityIndicator:_activityIndicator animating:NO]];
+                    [weakSelf.feedTableView reloadData];
+                });
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.navigationItem setRightBarButtonItem:[UIBarButtonItem setupActivityIndicator:_activityIndicator animating:YES]];
+                    [weakSelf presentViewController:[UIAlertController showAlertController] animated:YES completion:nil];
+                });
+                NSLog(@"Error - %@",error);
+            }
+        }];
+    }
 }
 
 #pragma mark - TableView getter customize
@@ -113,6 +131,7 @@ NSString *const kNavigationBarTitle = @"RSSReader";
 - (void)dealloc
 {
     [_feedTableView release];
+    [_activityIndicator release];
     [_dataSource release];
     [_feedService release];
     [_parser release];
