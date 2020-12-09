@@ -14,7 +14,6 @@
     UIBarButtonItem * barButton = [[[UIBarButtonItem alloc] initWithCustomView:indicator]autorelease];
     BOOL flag = animating;
     flag ? [indicator startAnimating] : [indicator stopAnimating];
-    indicator.hidesWhenStopped = YES;
     [indicator release];
     return barButton;
 }
