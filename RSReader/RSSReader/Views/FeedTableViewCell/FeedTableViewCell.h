@@ -11,6 +11,9 @@
 
 @interface FeedTableViewCell : UITableViewCell
 
+@property (retain, nonatomic) IBOutlet UIButton *descriptionButton;
+@property (retain, nonatomic) UITextView *descTextView;
+
 -(void)configureFeedItem:(Feeds *)feed;
 
 @end

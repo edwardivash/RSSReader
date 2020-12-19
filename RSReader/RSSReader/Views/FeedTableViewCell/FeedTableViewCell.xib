@@ -11,50 +11,67 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CellId" rowHeight="115" id="KGk-i7-Jjw" customClass="FeedTableViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="331" height="115"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CellId" rowHeight="357" id="KGk-i7-Jjw" customClass="FeedTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="422" height="357"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="331" height="115"/>
+                <rect key="frame" x="0.0" y="0.0" width="422" height="357"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Новости дня,Новости дняНовости дняНовости дняНовости дняНовости " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GSy-ir-SUm">
-                        <rect key="frame" x="5" y="5" width="321" height="64"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Новости дня,Новости дняНовости дняНовости дняНовости дняНовости " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GSy-ir-SUm">
+                        <rect key="frame" x="5" y="5" width="412" height="102"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="64" id="kAr-dX-ccf"/>
+                            <constraint firstAttribute="height" constant="102" id="SQN-mz-2KC"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="79" id="aHC-au-4S5"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="18.11.2020" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m4B-Wl-vSX">
-                        <rect key="frame" x="5" y="74" width="72.5" height="36"/>
+                        <rect key="frame" x="5" y="321" width="72.5" height="28"/>
                         <constraints>
-                            <constraint firstAttribute="height" priority="999" constant="11" id="Tin-VT-76t"/>
+                            <constraint firstAttribute="height" priority="999" constant="28" id="mZF-fE-Reb"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" systemColor="systemGrayColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eU5-9L-Qxc">
+                        <rect key="frame" x="365" y="321" width="37" height="29"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="37" id="Up8-oG-oxq"/>
+                            <constraint firstAttribute="height" priority="999" constant="34" id="ijv-qs-gjH"/>
+                        </constraints>
+                        <state key="normal" title="Button" image="buttonDisabled"/>
+                    </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="GSy-ir-SUm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="3cW-7t-QDI"/>
-                    <constraint firstItem="m4B-Wl-vSX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="MxV-YJ-UDC"/>
-                    <constraint firstAttribute="trailing" secondItem="GSy-ir-SUm" secondAttribute="trailing" constant="5" id="W6z-mb-6d2"/>
-                    <constraint firstItem="m4B-Wl-vSX" firstAttribute="top" secondItem="GSy-ir-SUm" secondAttribute="bottom" constant="5" id="eFZ-Qk-QHY"/>
-                    <constraint firstItem="GSy-ir-SUm" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="eti-n8-2VV"/>
-                    <constraint firstAttribute="bottom" secondItem="m4B-Wl-vSX" secondAttribute="bottom" constant="5" id="sPW-G4-BLh"/>
+                    <constraint firstItem="GSy-ir-SUm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="0lF-Mr-NqN"/>
+                    <constraint firstAttribute="bottom" secondItem="m4B-Wl-vSX" secondAttribute="bottom" constant="8" id="5qz-8W-TrA"/>
+                    <constraint firstItem="m4B-Wl-vSX" firstAttribute="top" secondItem="GSy-ir-SUm" secondAttribute="bottom" constant="214" id="AHW-6D-4po"/>
+                    <constraint firstAttribute="trailing" secondItem="GSy-ir-SUm" secondAttribute="trailing" constant="5" id="C3Z-BO-Ykh"/>
+                    <constraint firstItem="m4B-Wl-vSX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="JLf-nC-n4f"/>
+                    <constraint firstItem="GSy-ir-SUm" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="Mz9-LX-QCF"/>
+                    <constraint firstAttribute="trailing" secondItem="eU5-9L-Qxc" secondAttribute="trailing" constant="20" symbolic="YES" id="Nuk-oY-fGy"/>
+                    <constraint firstItem="GSy-ir-SUm" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="jtB-V6-fDS"/>
+                    <constraint firstItem="GSy-ir-SUm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="ouS-Zw-MEm"/>
+                    <constraint firstAttribute="trailing" secondItem="GSy-ir-SUm" secondAttribute="trailing" constant="5" id="tgf-4G-wRa"/>
+                    <constraint firstAttribute="bottom" secondItem="eU5-9L-Qxc" secondAttribute="bottom" constant="7" id="uQT-Rq-n4q"/>
+                    <constraint firstItem="eU5-9L-Qxc" firstAttribute="top" secondItem="GSy-ir-SUm" secondAttribute="bottom" constant="214" id="z9p-JV-jFK"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
+                <outlet property="descriptionButton" destination="eU5-9L-Qxc" id="AYg-cI-6uw"/>
                 <outlet property="feedLabel" destination="GSy-ir-SUm" id="776-OG-ccy"/>
                 <outlet property="pubDateLabel" destination="m4B-Wl-vSX" id="ZFh-zd-Z00"/>
             </connections>
-            <point key="canvasLocation" x="-34.057971014492757" y="19.754464285714285"/>
+            <point key="canvasLocation" x="31.884057971014496" y="95.424107142857139"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="buttonDisabled" width="240" height="240"/>
         <systemColor name="systemGrayColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

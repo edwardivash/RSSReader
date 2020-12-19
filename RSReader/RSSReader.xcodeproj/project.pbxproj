@@ -15,10 +15,12 @@
 		D723D96D2562E304003DF465 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D723D96C2562E304003DF465 /* main.m */; };
 		D723D9AF2563C890003DF465 /* FeedListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D723D9AD2563C890003DF465 /* FeedListVC.m */; };
 		D723D9B92563D2DC003DF465 /* Feeds.m in Sources */ = {isa = PBXBuildFile; fileRef = D723D9B82563D2DC003DF465 /* Feeds.m */; };
+		D7378874258811AE005DD524 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7378873258811AE005DD524 /* WebViewController.m */; };
 		D73C3C8B25658A9A0097261C /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D73C3C8925658A9A0097261C /* FeedTableViewCell.m */; };
 		D73C3C8C25658A9A0097261C /* FeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D73C3C8A25658A9A0097261C /* FeedTableViewCell.xib */; };
 		D756469825700E020074F03F /* NSXMLParser+SetDataWithDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D756469725700E020074F03F /* NSXMLParser+SetDataWithDelegate.m */; };
 		D75B3110256D1A5B009910B2 /* NSString+DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D75B310F256D1A5B009910B2 /* NSString+DateFormatter.m */; };
+		D7700A2D25865423007EBC37 /* NSString+GetSubstringFromDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = D7700A2C25865422007EBC37 /* NSString+GetSubstringFromDescription.m */; };
 		D789E13225640A2100AAE598 /* RSSReader.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D789E13125640A2100AAE598 /* RSSReader.rtf */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +40,8 @@
 		D723D9AD2563C890003DF465 /* FeedListVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedListVC.m; sourceTree = "<group>"; };
 		D723D9B72563D2DC003DF465 /* Feeds.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Feeds.h; sourceTree = "<group>"; };
 		D723D9B82563D2DC003DF465 /* Feeds.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Feeds.m; sourceTree = "<group>"; };
+		D7378872258811AE005DD524 /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		D7378873258811AE005DD524 /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		D73C3C8825658A9A0097261C /* FeedTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedTableViewCell.h; sourceTree = "<group>"; };
 		D73C3C8925658A9A0097261C /* FeedTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewCell.m; sourceTree = "<group>"; };
 		D73C3C8A25658A9A0097261C /* FeedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedTableViewCell.xib; sourceTree = "<group>"; };
@@ -46,6 +50,8 @@
 		D75B310D256D19E6009910B2 /* NSString+DateFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+DateFormatter.h"; sourceTree = "<group>"; };
 		D75B310F256D1A5B009910B2 /* NSString+DateFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+DateFormatter.m"; sourceTree = "<group>"; };
 		D75B3114256D618D009910B2 /* RSParserProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSParserProtocol.h; sourceTree = "<group>"; };
+		D7700A2B25865422007EBC37 /* NSString+GetSubstringFromDescription.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+GetSubstringFromDescription.h"; sourceTree = "<group>"; };
+		D7700A2C25865422007EBC37 /* NSString+GetSubstringFromDescription.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+GetSubstringFromDescription.m"; sourceTree = "<group>"; };
 		D789E13125640A2100AAE598 /* RSSReader.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = RSSReader.rtf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -163,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				D722DAD7256BEEC6007FC3C3 /* FeedsTableViewVC */,
+				D7378876258811B3005DD524 /* WebViewController */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -181,6 +188,16 @@
 				D722DAD5256BEEB3007FC3C3 /* FeedsModel */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		D7378876258811B3005DD524 /* WebViewController */ = {
+			isa = PBXGroup;
+			children = (
+				D7378872258811AE005DD524 /* WebViewController.h */,
+				D7378873258811AE005DD524 /* WebViewController.m */,
+			);
+			name = WebViewController;
+			path = FeedsTableViewVC/WebViewController;
 			sourceTree = "<group>";
 		};
 		D73C3C0D25643D060097261C /* Task */ = {
@@ -212,10 +229,20 @@
 		D75B30FC256D0EB5009910B2 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				D7700A2F2586542A007EBC37 /* NSStringSubstring */,
 				D756469B257010500074F03F /* NSXMLParser */,
 				D756469225700B5D0074F03F /* NSDateFormatter */,
 			);
 			path = Categories;
+			sourceTree = "<group>";
+		};
+		D7700A2F2586542A007EBC37 /* NSStringSubstring */ = {
+			isa = PBXGroup;
+			children = (
+				D7700A2B25865422007EBC37 /* NSString+GetSubstringFromDescription.h */,
+				D7700A2C25865422007EBC37 /* NSString+GetSubstringFromDescription.m */,
+			);
+			path = NSStringSubstring;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -290,9 +317,11 @@
 			files = (
 				D73C3C8B25658A9A0097261C /* FeedTableViewCell.m in Sources */,
 				D75B3110256D1A5B009910B2 /* NSString+DateFormatter.m in Sources */,
+				D7378874258811AE005DD524 /* WebViewController.m in Sources */,
 				D723D9AF2563C890003DF465 /* FeedListVC.m in Sources */,
 				D723D9B92563D2DC003DF465 /* Feeds.m in Sources */,
 				D70D1266256666B700DE4ECF /* RSXmlParser.m in Sources */,
+				D7700A2D25865423007EBC37 /* NSString+GetSubstringFromDescription.m in Sources */,
 				D723D95C2562E2FE003DF465 /* AppDelegate.m in Sources */,
 				D723D96D2562E304003DF465 /* main.m in Sources */,
 				D756469825700E020074F03F /* NSXMLParser+SetDataWithDelegate.m in Sources */,

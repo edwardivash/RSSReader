@@ -10,8 +10,12 @@
 #import "FeedService.h"
 #import "RSXmlParser.h"
 #import "Feeds.h"
+#import "WebViewController.h"
 
 NSString *const kNavigationBarTitle = @"RSSReader";
+NSString *const kCellId = @"CellId";
+NSString *const kSelectedImageName = @"buttonActive";
+NSString *const kDisabledImageName = @"buttonDisabled";
 
 @interface FeedListVC () <UITableViewDelegate, UITableViewDataSource>
 
@@ -28,9 +32,13 @@ NSString *const kNavigationBarTitle = @"RSSReader";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.navigationItem.title = kNavigationBarTitle;
     [self feedsLoader];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setToolbarHidden:YES animated:NO];
 }
 
 #pragma mark - Feeds Loader Private Method
@@ -56,13 +64,12 @@ NSString *const kNavigationBarTitle = @"RSSReader";
 
 - (UITableView *)feedTableView {
     
-    // Table view setup
     if (!_feedTableView) {
         _feedTableView = [UITableView new];
         _feedTableView.translatesAutoresizingMaskIntoConstraints = NO;
         _feedTableView.delegate = self;
         _feedTableView.dataSource = self;
-        [_feedTableView registerNib:[UINib nibWithNibName:@"FeedTableViewCell" bundle:nil] forCellReuseIdentifier:@"CellId"];
+        [_feedTableView registerNib:[UINib nibWithNibName:@"FeedTableViewCell" bundle:nil] forCellReuseIdentifier:kCellId];
         [self.view addSubview:_feedTableView];
         
         [NSLayoutConstraint activateConstraints:@[
@@ -89,26 +96,49 @@ NSString *const kNavigationBarTitle = @"RSSReader";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellId" forIndexPath:indexPath];
+    FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
     [cell configureFeedItem:self.dataSource[indexPath.row]];
+    cell.descriptionButton.tag = indexPath.row;
+    [cell.descTextView setHidden:YES];
+    [cell.descriptionButton setImage:[UIImage imageNamed:kDisabledImageName] forState:UIControlStateNormal];
+    [cell.descriptionButton addTarget:self action:@selector(checkButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
+}
+
+#pragma mark - CellButtonAction
+
+-(void)checkButtonAction:(id)sender {
+    
+    UIButton *button = (UIButton *)sender;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:button.tag inSection:0];
+    FeedTableViewCell *feedCell = (FeedTableViewCell *)[_feedTableView cellForRowAtIndexPath:indexPath];
+    if ([feedCell.descriptionButton.imageView.image isEqual:[UIImage imageNamed:kDisabledImageName]]) {
+        [feedCell.descriptionButton setImage:[UIImage imageNamed:kSelectedImageName] forState:UIControlStateNormal];
+        [feedCell.descTextView setHidden:NO];
+    } else {
+        [feedCell.descriptionButton setImage:[UIImage imageNamed:kDisabledImageName] forState:UIControlStateNormal];
+        [feedCell.descTextView setHidden:YES];
+    }
 }
 
 #pragma mark - Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     NSString *urlString = [NSString stringWithString:self.dataSource[indexPath.row].feedsLink];
     NSString *dataStr = [urlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSURL *url = [NSURL URLWithString:dataStr];
-    [[UIApplication sharedApplication]openURL:url options:@{} completionHandler:^(BOOL openUrl) {
-        NSLog(@"%@", openUrl ? @"Open URL":@"Can't open URL");
-    }];
+    WebViewController *webVC = [[WebViewController alloc]init];
+    [webVC.stringWithURL addObject:dataStr];
+    [self.navigationController pushViewController:webVC animated:YES];
+    [self.feedTableView deselectRowAtIndexPath:[self.feedTableView indexPathForSelectedRow] animated:YES];
+    [webVC release];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewAutomaticDimension;
 }
+
 
 - (void)dealloc
 {
