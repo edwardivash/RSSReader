@@ -1,15 +1,15 @@
 //
-//  UIBarButtonItem+ActivityIndicator.m
+//  UIBarButtonItem+BarButtonItemSetup.m
 //  RSSReader
 //
-//  Created by Eduard Ivash on 4.12.20.
+//  Created by Eduard Ivash on 21.12.20.
 //
 
-#import "UIBarButtonItem+ActivityIndicator.h"
+#import "UIBarButtonItem+BarButtonItemSetup.h"
 
-@implementation UIBarButtonItem (ActivityIndicator)
+@implementation UIBarButtonItem (BarButtonItemSetup)
 
-+(UIBarButtonItem *)setupActivityIndicator:(UIActivityIndicatorView *)indicator animating:(BOOL)animating {
++(UIBarButtonItem *)setupBarButtonItem:(UIActivityIndicatorView *)indicator animating:(BOOL)animating {
     indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     UIBarButtonItem * barButton = [[[UIBarButtonItem alloc] initWithCustomView:indicator]autorelease];
     BOOL flag = animating;

@@ -11,7 +11,7 @@
 #import "RSXmlParser.h"
 #import "Feeds.h"
 #import "UIAlertController+ShowAlertController.h"
-#import "UIBarButtonItem+ActivityIndicator.h"
+#import "UIBarButtonItem+BarButtonItemSetup.h"
 
 NSString *const kNavigationBarTitle = @"RSSReader";
 
@@ -47,24 +47,23 @@ NSString *const kNavigationBarTitle = @"RSSReader";
     
     typeof (self)weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [weakSelf.navigationItem setRightBarButtonItem:[UIBarButtonItem setupActivityIndicator:_activityIndicator animating:YES]];
+        [weakSelf.navigationItem setRightBarButtonItem:[UIBarButtonItem setupBarButtonItem:_activityIndicator animating:YES]];
     });
     
-    if (!self.feedService) {
+    if (!_feedService) {
         self.feedService = [[[FeedService alloc]initWithParser:self.parser]autorelease];
         [self.feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
             if (!error) {
                 self.dataSource = feedsArray;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.navigationItem setRightBarButtonItem:[UIBarButtonItem setupActivityIndicator:_activityIndicator animating:NO]];
+                    [weakSelf.navigationItem setRightBarButtonItem:[UIBarButtonItem setupBarButtonItem:_activityIndicator animating:NO]];
                     [weakSelf.feedTableView reloadData];
                 });
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.navigationItem setRightBarButtonItem:[UIBarButtonItem setupActivityIndicator:_activityIndicator animating:YES]];
-                    [weakSelf presentViewController:[UIAlertController showAlertController] animated:YES completion:nil];
+                    [weakSelf.navigationItem setRightBarButtonItem:[UIBarButtonItem setupBarButtonItem:_activityIndicator animating:YES]];
+                    [weakSelf presentViewController:[UIAlertController showAlertController:error] animated:YES completion:nil];
                 });
-                NSLog(@"Error - %@",error);
             }
         }];
     }

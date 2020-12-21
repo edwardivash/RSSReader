@@ -9,8 +9,8 @@
 
 @implementation UIAlertController (ShowAlertController)
 
-+(UIAlertController *)showAlertController {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Cant load feeds." message:@"Check your internet connection." preferredStyle:UIAlertControllerStyleAlert];
++(UIAlertController *)showAlertController:(NSError *)error {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"%@", error] message:@"Check your internet connection." preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:nil];
     [alert addAction:okAction];
     return alert;

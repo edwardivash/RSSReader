@@ -9,6 +9,6 @@
 
 @interface UIAlertController (ShowAlertController)
 
-+(UIAlertController *)showAlertController;
++(UIAlertController *)showAlertController:(NSError *)error;
 
 @end
