@@ -11,14 +11,16 @@
 #import "RSXmlParser.h"
 #import "Feeds.h"
 #import "UIAlertController+ShowAlertController.h"
-#import "UIBarButtonItem+BarButtonItemSetup.h"
 
 NSString *const kNavigationBarTitle = @"RSSReader";
+NSString *const kRefreshButtonName = @"refreshIcon";
 
 @interface FeedListVC () <UITableViewDelegate, UITableViewDataSource>
 
 @property (retain, nonatomic) UITableView *feedTableView;
 @property (retain, nonatomic) UIActivityIndicatorView *activityIndicator;
+@property (retain, nonatomic) UIBarButtonItem *buttonWithActivityIndicator;
+@property (retain, nonatomic) UIBarButtonItem *refreshButton;
 @property (retain, nonatomic) FeedService *feedService;
 @property (retain, nonatomic) RSXmlParser *parser;
 @property (retain, nonatomic) NSArray<Feeds*> *dataSource;
@@ -33,47 +35,19 @@ NSString *const kNavigationBarTitle = @"RSSReader";
     [super viewDidLoad];
     
     self.navigationItem.title = kNavigationBarTitle;
+    [NSThread detachNewThreadSelector:@selector(feedsLoader) toTarget:self withObject:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
     
-    [NSThread detachNewThreadSelector:@selector(feedsLoader) toTarget:self withObject:nil];
+    [self setupButtonWithActivityIndicator];
+    [self.activityIndicator startAnimating];
 }
 
-#pragma mark - Feeds Loader Private Method
-
--(void)feedsLoader {
-    
-    typeof (self)weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [weakSelf.navigationItem setRightBarButtonItem:[UIBarButtonItem setupBarButtonItem:_activityIndicator animating:YES]];
-    });
-    
-    if (!_feedService) {
-        self.feedService = [[[FeedService alloc]initWithParser:self.parser]autorelease];
-        [self.feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
-            if (!error) {
-                self.dataSource = feedsArray;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.navigationItem setRightBarButtonItem:[UIBarButtonItem setupBarButtonItem:_activityIndicator animating:NO]];
-                    [weakSelf.feedTableView reloadData];
-                });
-            } else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.navigationItem setRightBarButtonItem:[UIBarButtonItem setupBarButtonItem:_activityIndicator animating:YES]];
-                    [weakSelf presentViewController:[UIAlertController showAlertController:error] animated:YES completion:nil];
-                });
-            }
-        }];
-    }
-}
-
-#pragma mark - TableView getter customize
+#pragma mark - Getters
 
 - (UITableView *)feedTableView {
-    
-    // Table view setup
     if (!_feedTableView) {
         _feedTableView = [UITableView new];
         _feedTableView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -92,10 +66,31 @@ NSString *const kNavigationBarTitle = @"RSSReader";
     return _feedTableView;
 }
 
-#pragma mark - Parser Getter
+- (UIActivityIndicatorView *)activityIndicator {
+    if (!_activityIndicator) {
+        _activityIndicator = [[UIActivityIndicatorView alloc] init];
+    }
+    return _activityIndicator;
+}
+
+- (UIBarButtonItem *)buttonWithActivityIndicator {
+    if (!_buttonWithActivityIndicator) {
+        _buttonWithActivityIndicator = [[UIBarButtonItem alloc] init];
+    }
+    return _buttonWithActivityIndicator;
+}
+
+- (UIBarButtonItem *)refreshButton {
+    if (!_refreshButton) {
+        _refreshButton = [[UIBarButtonItem alloc] init];
+    }
+    return _refreshButton;
+}
 
 - (RSXmlParser *)parser {
-    _parser = [RSXmlParser new];
+    if (!_parser) {
+        _parser = [[RSXmlParser alloc] init];
+    }
     return _parser;
 }
 
@@ -127,10 +122,55 @@ NSString *const kNavigationBarTitle = @"RSSReader";
     return UITableViewAutomaticDimension;
 }
 
+#pragma mark - Feeds Loader
+
+- (void)feedsLoader {
+    typeof (self)weakSelf = self;
+    if (!_feedService) {
+        self.feedService = [[[FeedService alloc]initWithParser:self.parser] autorelease];
+        [self.feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
+            if (!error) {
+                weakSelf.dataSource = feedsArray;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.activityIndicator stopAnimating];
+                    [weakSelf setupRefreshButton];
+                    [weakSelf.feedTableView reloadData];
+                });
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.activityIndicator startAnimating];
+                    [weakSelf presentViewController:[UIAlertController showAlertControllerWithAction:self] animated:YES completion:nil];
+                });
+            }
+        }];
+    }
+}
+
+#pragma mark - Private Methods
+
+- (void)setupButtonWithActivityIndicator {
+    self.buttonWithActivityIndicator.customView = self.activityIndicator;
+    self.navigationItem.rightBarButtonItem = self.buttonWithActivityIndicator;
+}
+
+- (void)setupRefreshButton {
+    self.refreshButton.image = [UIImage imageNamed:kRefreshButtonName];
+    self.refreshButton.target = self;
+    self.refreshButton.action = @selector(refreshButtonAction);
+    self.navigationItem.rightBarButtonItem = self.refreshButton;
+}
+
+- (void)refreshButtonAction {
+    [self.feedTableView reloadData];
+}
+
+
 - (void)dealloc
 {
     [_feedTableView release];
     [_activityIndicator release];
+    [_buttonWithActivityIndicator release];
+    [_refreshButton release];
     [_dataSource release];
     [_feedService release];
     [_parser release];

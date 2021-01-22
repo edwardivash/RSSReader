@@ -25,14 +25,13 @@
     
     [self.window setRootViewController:nvc];
     [self.window makeKeyAndVisible];
-    
+        
     [feedListVC release];
     [nvc release];
     [window release];
     
     return YES;
 }
-
 
 - (void)dealloc
 {

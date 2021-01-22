@@ -9,4 +9,7 @@
 
 @interface FeedListVC : UIViewController
 
+@property (retain, nonatomic, readonly) UIActivityIndicatorView *activityIndicator;
+- (void)setupRefreshButton;
+
 @end

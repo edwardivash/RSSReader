@@ -1,0 +1,11 @@
+/* 
+  Localized.string.strings
+  RSSReader
+
+  Created by Eduard Ivash on 21.01.21.
+  
+*/
+
+"Unable to load data." = "Unable to load data.";
+"Check your internet connection." = "Check your internet connection.";
+"Ok" = "Ok";

@@ -21,6 +21,6 @@ extern NSString *const kFeedsPubDate;
 @property (nonatomic,copy) NSString *feedsLink;
 @property (nonatomic,copy) NSString *feedsPubDate;
 
--(instancetype)initWithDictionary:(NSDictionary *)dictionary;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

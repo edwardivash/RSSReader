@@ -7,8 +7,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class FeedListVC;
+
 @interface UIAlertController (ShowAlertController)
 
-+(UIAlertController *)showAlertController:(NSError *)error;
++ (UIAlertController *)showAlertControllerWithAction:(FeedListVC *)feedVC;
 
 @end

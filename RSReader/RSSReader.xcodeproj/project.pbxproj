@@ -17,9 +17,9 @@
 		D723D9B92563D2DC003DF465 /* Feeds.m in Sources */ = {isa = PBXBuildFile; fileRef = D723D9B82563D2DC003DF465 /* Feeds.m */; };
 		D73C3C8B25658A9A0097261C /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D73C3C8925658A9A0097261C /* FeedTableViewCell.m */; };
 		D73C3C8C25658A9A0097261C /* FeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D73C3C8A25658A9A0097261C /* FeedTableViewCell.xib */; };
-		D7480B2025909F1500E9DB4E /* UIBarButtonItem+BarButtonItemSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = D7480B1F25909F1500E9DB4E /* UIBarButtonItem+BarButtonItemSetup.m */; };
 		D756469825700E020074F03F /* NSXMLParser+SetDataWithDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D756469725700E020074F03F /* NSXMLParser+SetDataWithDelegate.m */; };
 		D75B3110256D1A5B009910B2 /* NSString+DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D75B310F256D1A5B009910B2 /* NSString+DateFormatter.m */; };
+		D76B96BA25B9DA130041E109 /* Localized.strings in Resources */ = {isa = PBXBuildFile; fileRef = D76B96B925B9DA130041E109 /* Localized.strings */; };
 		D76D7618257A5EB7002E355F /* UIAlertController+ShowAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = D76D7617257A5EB7002E355F /* UIAlertController+ShowAlertController.m */; };
 		D789E13225640A2100AAE598 /* RSSReader.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D789E13125640A2100AAE598 /* RSSReader.rtf */; };
 /* End PBXBuildFile section */
@@ -43,13 +43,12 @@
 		D73C3C8825658A9A0097261C /* FeedTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedTableViewCell.h; sourceTree = "<group>"; };
 		D73C3C8925658A9A0097261C /* FeedTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewCell.m; sourceTree = "<group>"; };
 		D73C3C8A25658A9A0097261C /* FeedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedTableViewCell.xib; sourceTree = "<group>"; };
-		D7480B1E25909F1500E9DB4E /* UIBarButtonItem+BarButtonItemSetup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+BarButtonItemSetup.h"; sourceTree = "<group>"; };
-		D7480B1F25909F1500E9DB4E /* UIBarButtonItem+BarButtonItemSetup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+BarButtonItemSetup.m"; sourceTree = "<group>"; };
 		D756469525700DB20074F03F /* NSXMLParser+SetDataWithDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSXMLParser+SetDataWithDelegate.h"; sourceTree = "<group>"; };
 		D756469725700E020074F03F /* NSXMLParser+SetDataWithDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSXMLParser+SetDataWithDelegate.m"; sourceTree = "<group>"; };
 		D75B310D256D19E6009910B2 /* NSString+DateFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+DateFormatter.h"; sourceTree = "<group>"; };
 		D75B310F256D1A5B009910B2 /* NSString+DateFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+DateFormatter.m"; sourceTree = "<group>"; };
 		D75B3114256D618D009910B2 /* RSParserProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSParserProtocol.h; sourceTree = "<group>"; };
+		D76B96B925B9DA130041E109 /* Localized.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localized.strings; sourceTree = "<group>"; };
 		D76D7616257A5EB7002E355F /* UIAlertController+ShowAlertController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIAlertController+ShowAlertController.h"; sourceTree = "<group>"; };
 		D76D7617257A5EB7002E355F /* UIAlertController+ShowAlertController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIAlertController+ShowAlertController.m"; sourceTree = "<group>"; };
 		D789E13125640A2100AAE598 /* RSSReader.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = RSSReader.rtf; sourceTree = "<group>"; };
@@ -161,6 +160,7 @@
 				D723D9682562E304003DF465 /* LaunchScreen.storyboard */,
 				D723D96B2562E304003DF465 /* Info.plist */,
 				D723D96C2562E304003DF465 /* main.m */,
+				D76B96B925B9DA130041E109 /* Localized.strings */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -219,20 +219,10 @@
 			isa = PBXGroup;
 			children = (
 				D76D761A257A5EBD002E355F /* UIAlertController */,
-				D76D7613257A5773002E355F /* UIBarButtonItem */,
 				D756469B257010500074F03F /* NSXMLParser */,
 				D756469225700B5D0074F03F /* NSDateFormatter */,
 			);
 			path = Categories;
-			sourceTree = "<group>";
-		};
-		D76D7613257A5773002E355F /* UIBarButtonItem */ = {
-			isa = PBXGroup;
-			children = (
-				D7480B1E25909F1500E9DB4E /* UIBarButtonItem+BarButtonItemSetup.h */,
-				D7480B1F25909F1500E9DB4E /* UIBarButtonItem+BarButtonItemSetup.m */,
-			);
-			path = UIBarButtonItem;
 			sourceTree = "<group>";
 		};
 		D76D761A257A5EBD002E355F /* UIAlertController */ = {
@@ -304,6 +294,7 @@
 				D73C3C8C25658A9A0097261C /* FeedTableViewCell.xib in Resources */,
 				D789E13225640A2100AAE598 /* RSSReader.rtf in Resources */,
 				D723D9672562E304003DF465 /* Assets.xcassets in Resources */,
+				D76B96BA25B9DA130041E109 /* Localized.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,7 +315,6 @@
 				D723D96D2562E304003DF465 /* main.m in Sources */,
 				D756469825700E020074F03F /* NSXMLParser+SetDataWithDelegate.m in Sources */,
 				D70D125725665CBC00DE4ECF /* FeedService.m in Sources */,
-				D7480B2025909F1500E9DB4E /* UIBarButtonItem+BarButtonItemSetup.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

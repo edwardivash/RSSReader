@@ -9,6 +9,6 @@
 
 @interface NSXMLParser (SetDataWithDelegate)
 
-+(NSXMLParser *)setData:(NSData *)data withDelegate:(id<NSXMLParserDelegate>)delegate;
++ (NSXMLParser *)setData:(NSData *)data withDelegate:(id<NSXMLParserDelegate>)delegate;
 
 @end
