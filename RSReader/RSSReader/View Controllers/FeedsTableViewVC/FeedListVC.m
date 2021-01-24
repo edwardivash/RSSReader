@@ -10,10 +10,12 @@
 #import "FeedService.h"
 #import "RSXmlParser.h"
 #import "Feeds.h"
-#import "UIAlertController+ShowAlertController.h"
+#import "UIAlertController+CreateAlertController.h"
 
 NSString *const kNavigationBarTitle = @"RSSReader";
 NSString *const kRefreshButtonName = @"refreshIcon";
+NSString *const kCellId = @"CellId";
+NSString *const kFeedCellName = @"FeedTableViewCell";
 
 @interface FeedListVC () <UITableViewDelegate, UITableViewDataSource>
 
@@ -53,7 +55,7 @@ NSString *const kRefreshButtonName = @"refreshIcon";
         _feedTableView.translatesAutoresizingMaskIntoConstraints = NO;
         _feedTableView.delegate = self;
         _feedTableView.dataSource = self;
-        [_feedTableView registerNib:[UINib nibWithNibName:@"FeedTableViewCell" bundle:nil] forCellReuseIdentifier:@"CellId"];
+        [_feedTableView registerNib:[UINib nibWithNibName:kFeedCellName bundle:nil] forCellReuseIdentifier:kCellId];
         [self.view addSubview:_feedTableView];
         
         [NSLayoutConstraint activateConstraints:@[
@@ -66,6 +68,13 @@ NSString *const kRefreshButtonName = @"refreshIcon";
     return _feedTableView;
 }
 
+- (FeedService *)feedService {
+    if (!_feedService) {
+        _feedService = [[FeedService alloc] initWithParser: self.parser];
+    }
+    return _feedService;
+}
+
 - (UIActivityIndicatorView *)activityIndicator {
     if (!_activityIndicator) {
         _activityIndicator = [[UIActivityIndicatorView alloc] init];
@@ -76,6 +85,7 @@ NSString *const kRefreshButtonName = @"refreshIcon";
 - (UIBarButtonItem *)buttonWithActivityIndicator {
     if (!_buttonWithActivityIndicator) {
         _buttonWithActivityIndicator = [[UIBarButtonItem alloc] init];
+        _buttonWithActivityIndicator.customView = self.activityIndicator;
     }
     return _buttonWithActivityIndicator;
 }
@@ -83,6 +93,9 @@ NSString *const kRefreshButtonName = @"refreshIcon";
 - (UIBarButtonItem *)refreshButton {
     if (!_refreshButton) {
         _refreshButton = [[UIBarButtonItem alloc] init];
+        _refreshButton.image = [UIImage imageNamed:kRefreshButtonName];
+        _refreshButton.target = self;
+        _refreshButton.action = @selector(refreshButtonAction);
     }
     return _refreshButton;
 }
@@ -101,7 +114,7 @@ NSString *const kRefreshButtonName = @"refreshIcon";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellId" forIndexPath:indexPath];
+    FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
     [cell configureFeedItem:self.dataSource[indexPath.row]];
     
     return cell;
@@ -125,43 +138,38 @@ NSString *const kRefreshButtonName = @"refreshIcon";
 #pragma mark - Feeds Loader
 
 - (void)feedsLoader {
-    typeof (self)weakSelf = self;
-    if (!_feedService) {
-        self.feedService = [[[FeedService alloc]initWithParser:self.parser] autorelease];
+    __block typeof (self)weakSelf = self;
         [self.feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
-            if (!error) {
+            if (error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.activityIndicator stopAnimating];
+                    [weakSelf setupRefreshButton];
+                    [weakSelf presentViewController:[UIAlertController createAlertControllerWithAction] animated:YES completion:nil];
+                });
+            } else {
                 weakSelf.dataSource = feedsArray;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [weakSelf.activityIndicator stopAnimating];
                     [weakSelf setupRefreshButton];
                     [weakSelf.feedTableView reloadData];
                 });
-            } else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.activityIndicator startAnimating];
-                    [weakSelf presentViewController:[UIAlertController showAlertControllerWithAction:self] animated:YES completion:nil];
-                });
             }
         }];
-    }
 }
 
 #pragma mark - Private Methods
 
 - (void)setupButtonWithActivityIndicator {
-    self.buttonWithActivityIndicator.customView = self.activityIndicator;
     self.navigationItem.rightBarButtonItem = self.buttonWithActivityIndicator;
 }
 
 - (void)setupRefreshButton {
-    self.refreshButton.image = [UIImage imageNamed:kRefreshButtonName];
-    self.refreshButton.target = self;
-    self.refreshButton.action = @selector(refreshButtonAction);
     self.navigationItem.rightBarButtonItem = self.refreshButton;
 }
 
 - (void)refreshButtonAction {
-    [self.feedTableView reloadData];
+    [NSThread detachNewThreadSelector:@selector(feedsLoader) toTarget:self withObject:nil];
+    [self.feedTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 

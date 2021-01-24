@@ -27,13 +27,14 @@ NSString *const kUrl = @"https://news.tut.by/rss/index.rss";
 }
 
 - (void)loadFeeds:(void (^)(NSArray<Feeds *> *, NSError *))completion {
-    NSError *error;
-    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:kUrl] options:NSDataReadingUncached error:&error];
+    NSError *error = nil;
+    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:kUrl] options:NSDataReadingMapped error:&error];
     
         if (error) {
             completion(nil,error);
             return;
         }
+    
         [self.parser parseFeeds:data completion:completion];
 }
 

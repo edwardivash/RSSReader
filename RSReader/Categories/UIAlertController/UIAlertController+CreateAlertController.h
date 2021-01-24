@@ -9,8 +9,8 @@
 
 @class FeedListVC;
 
-@interface UIAlertController (ShowAlertController)
+@interface UIAlertController (CreateAlertController)
 
-+ (UIAlertController *)showAlertControllerWithAction:(FeedListVC *)feedVC;
++ (UIAlertController *)createAlertControllerWithAction;
 
 @end
