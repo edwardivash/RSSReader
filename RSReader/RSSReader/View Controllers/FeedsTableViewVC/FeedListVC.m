@@ -139,6 +139,10 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 
 - (void)feedsLoader {
     __block typeof (self)weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf setupButtonWithActivityIndicator];
+        [weakSelf.activityIndicator startAnimating];
+    });
         [self.feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
             if (error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
