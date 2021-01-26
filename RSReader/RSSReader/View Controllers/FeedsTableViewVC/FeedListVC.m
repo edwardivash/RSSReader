@@ -40,13 +40,6 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
     [NSThread detachNewThreadSelector:@selector(feedsLoader) toTarget:self withObject:nil];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:YES];
-    
-    [self setupButtonWithActivityIndicator];
-    [self.activityIndicator startAnimating];
-}
-
 #pragma mark - Getters
 
 - (UITableView *)feedTableView {
@@ -173,7 +166,9 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 
 - (void)refreshButtonAction {
     [NSThread detachNewThreadSelector:@selector(feedsLoader) toTarget:self withObject:nil];
-    [self.feedTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+    if (self.dataSource) {
+        [self.feedTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+    }
 }
 
 
