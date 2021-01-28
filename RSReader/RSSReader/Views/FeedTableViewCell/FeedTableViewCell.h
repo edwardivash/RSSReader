@@ -11,6 +11,6 @@
 
 @interface FeedTableViewCell : UITableViewCell
 
--(void)configureFeedItem:(Feeds *)feed;
+- (void)configureFeedItem:(Feeds *)feed;
 
 @end

@@ -10,15 +10,22 @@
 #import "FeedService.h"
 #import "RSXmlParser.h"
 #import "Feeds.h"
+#import "UIAlertController+CreateAlertController.h"
 
 NSString *const kNavigationBarTitle = @"RSSReader";
+NSString *const kRefreshButtonName = @"refreshIcon";
+NSString *const kCellId = @"CellId";
+NSString *const kFeedCellName = @"FeedTableViewCell";
 
 @interface FeedListVC () <UITableViewDelegate, UITableViewDataSource>
 
 @property (retain, nonatomic) UITableView *feedTableView;
+@property (retain, nonatomic) UIActivityIndicatorView *activityIndicator;
+@property (retain, nonatomic) UIBarButtonItem *buttonWithActivityIndicator;
+@property (retain, nonatomic) UIBarButtonItem *refreshButton;
 @property (retain, nonatomic) FeedService *feedService;
 @property (retain, nonatomic) RSXmlParser *parser;
-@property (retain, nonatomic) NSArray<Feeds*>*dataSource;
+@property (retain, nonatomic) NSArray<Feeds*> *dataSource;
 
 @end
 
@@ -30,39 +37,18 @@ NSString *const kNavigationBarTitle = @"RSSReader";
     [super viewDidLoad];
     
     self.navigationItem.title = kNavigationBarTitle;
-    [self feedsLoader];
+    [NSThread detachNewThreadSelector:@selector(feedsLoader) toTarget:self withObject:nil];
 }
 
-#pragma mark - Feeds Loader Private Method
-
--(void)feedsLoader {
-    
-        if (!self.feedService) {
-            self.feedService = [[[FeedService alloc]initWithParser:self.parser]autorelease];
-            [self.feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
-                if (!error) {
-                    self.dataSource = feedsArray;
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.feedTableView reloadData];
-                    });
-                } else {
-                    NSLog(@"Error - %@",error);
-                }
-            }];
-        }
-}
-
-#pragma mark - TableView getter customize
+#pragma mark - Getters
 
 - (UITableView *)feedTableView {
-    
-    // Table view setup
     if (!_feedTableView) {
         _feedTableView = [UITableView new];
         _feedTableView.translatesAutoresizingMaskIntoConstraints = NO;
         _feedTableView.delegate = self;
         _feedTableView.dataSource = self;
-        [_feedTableView registerNib:[UINib nibWithNibName:@"FeedTableViewCell" bundle:nil] forCellReuseIdentifier:@"CellId"];
+        [_feedTableView registerNib:[UINib nibWithNibName:kFeedCellName bundle:nil] forCellReuseIdentifier:kCellId];
         [self.view addSubview:_feedTableView];
         
         [NSLayoutConstraint activateConstraints:@[
@@ -75,10 +61,42 @@ NSString *const kNavigationBarTitle = @"RSSReader";
     return _feedTableView;
 }
 
-#pragma mark - Parser Getter
+- (FeedService *)feedService {
+    if (!_feedService) {
+        _feedService = [[FeedService alloc] initWithParser: self.parser];
+    }
+    return _feedService;
+}
+
+- (UIActivityIndicatorView *)activityIndicator {
+    if (!_activityIndicator) {
+        _activityIndicator = [[UIActivityIndicatorView alloc] init];
+    }
+    return _activityIndicator;
+}
+
+- (UIBarButtonItem *)buttonWithActivityIndicator {
+    if (!_buttonWithActivityIndicator) {
+        _buttonWithActivityIndicator = [[UIBarButtonItem alloc] init];
+        _buttonWithActivityIndicator.customView = self.activityIndicator;
+    }
+    return _buttonWithActivityIndicator;
+}
+
+- (UIBarButtonItem *)refreshButton {
+    if (!_refreshButton) {
+        _refreshButton = [[UIBarButtonItem alloc] init];
+        _refreshButton.image = [UIImage imageNamed:kRefreshButtonName];
+        _refreshButton.target = self;
+        _refreshButton.action = @selector(refreshButtonAction);
+    }
+    return _refreshButton;
+}
 
 - (RSXmlParser *)parser {
-    _parser = [RSXmlParser new];
+    if (!_parser) {
+        _parser = [[RSXmlParser alloc] init];
+    }
     return _parser;
 }
 
@@ -89,7 +107,7 @@ NSString *const kNavigationBarTitle = @"RSSReader";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellId" forIndexPath:indexPath];
+    FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
     [cell configureFeedItem:self.dataSource[indexPath.row]];
     
     return cell;
@@ -110,9 +128,56 @@ NSString *const kNavigationBarTitle = @"RSSReader";
     return UITableViewAutomaticDimension;
 }
 
+#pragma mark - Feeds Loader
+
+- (void)feedsLoader {
+    __block typeof (self)weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf setupButtonWithActivityIndicator];
+        [weakSelf.activityIndicator startAnimating];
+    });
+        [self.feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
+            if (error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.activityIndicator stopAnimating];
+                    [weakSelf setupRefreshButton];
+                    [weakSelf presentViewController:[UIAlertController createAlertControllerWithAction] animated:YES completion:nil];
+                });
+            } else {
+                weakSelf.dataSource = feedsArray;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.activityIndicator stopAnimating];
+                    [weakSelf setupRefreshButton];
+                    [weakSelf.feedTableView reloadData];
+                });
+            }
+        }];
+}
+
+#pragma mark - Private Methods
+
+- (void)setupButtonWithActivityIndicator {
+    self.navigationItem.rightBarButtonItem = self.buttonWithActivityIndicator;
+}
+
+- (void)setupRefreshButton {
+    self.navigationItem.rightBarButtonItem = self.refreshButton;
+}
+
+- (void)refreshButtonAction {
+    [NSThread detachNewThreadSelector:@selector(feedsLoader) toTarget:self withObject:nil];
+    if (self.dataSource) {
+        [self.feedTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
+
 - (void)dealloc
 {
     [_feedTableView release];
+    [_activityIndicator release];
+    [_buttonWithActivityIndicator release];
+    [_refreshButton release];
     [_dataSource release];
     [_feedService release];
     [_parser release];
