@@ -11,11 +11,13 @@
 #import "RSXmlParser.h"
 #import "Feeds.h"
 #import "UIAlertController+CreateAlertController.h"
+#import "WebViewController.h"
 
 NSString *const kNavigationBarTitle = @"RSSReader";
 NSString *const kRefreshButtonName = @"refreshIcon";
 NSString *const kCellId = @"CellId";
 NSString *const kFeedCellName = @"FeedTableViewCell";
+float const extendedCellSize = 400.0f;
 
 @interface FeedListVC () <UITableViewDelegate, UITableViewDataSource>
 
@@ -26,6 +28,7 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 @property (retain, nonatomic) FeedService *feedService;
 @property (retain, nonatomic) RSXmlParser *parser;
 @property (retain, nonatomic) NSArray<Feeds*> *dataSource;
+@property (retain, nonatomic) NSMutableArray<NSIndexPath *>*selectedButtonsRows;
 
 @end
 
@@ -37,7 +40,38 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
     [super viewDidLoad];
     
     self.navigationItem.title = kNavigationBarTitle;
-    [NSThread detachNewThreadSelector:@selector(feedsLoader) toTarget:self withObject:nil];
+    [self feedsLoader];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setToolbarHidden:YES animated:NO];
+}
+
+#pragma mark - Feeds Loader
+
+- (void)feedsLoader {
+    __block typeof (self)weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf setupButtonWithActivityIndicator];
+        [weakSelf.activityIndicator startAnimating];
+    });
+        [self.feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
+            if (error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.activityIndicator stopAnimating];
+                    [weakSelf setupRefreshButton];
+                    [weakSelf presentViewController:[UIAlertController createAlertControllerWithAction] animated:YES completion:nil];
+                });
+            } else {
+                weakSelf.dataSource = feedsArray;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.activityIndicator stopAnimating];
+                    [weakSelf setupRefreshButton];
+                    [weakSelf.feedTableView reloadData];
+                });
+            }
+        }];
 }
 
 #pragma mark - Getters
@@ -100,6 +134,13 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
     return _parser;
 }
 
+- (NSMutableArray<NSIndexPath *> *)selectedButtonsRows {
+    if (!_selectedButtonsRows) {
+        _selectedButtonsRows = [[NSMutableArray alloc] init];
+    }
+    return _selectedButtonsRows;
+}
+
 #pragma mark - DataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -110,7 +151,22 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
     FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
     [cell configureFeedItem:self.dataSource[indexPath.row]];
     
+    typeof (self)weakSelf = self;
+    [cell changeFeedTableCellButtonState:indexPath array:self.selectedButtonsRows block:^(UIButton *button) {
+        [button addTarget:weakSelf action:@selector(setButtonStateAction:) forControlEvents:UIControlEventTouchUpInside];
+    }];
+    
     return cell;
+}
+
+#pragma mark - CellButtonAction
+
+- (void)setButtonStateAction:(UIButton *)sender {
+    NSIndexPath *selectedIndexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
+    BOOL isSelected = [self.selectedButtonsRows containsObject:selectedIndexPath];
+    isSelected = !isSelected;
+    isSelected ? [self.selectedButtonsRows addObject:selectedIndexPath] :         [self.selectedButtonsRows removeObject:selectedIndexPath];
+    [self.feedTableView reloadData];
 }
 
 #pragma mark - Delegate
@@ -118,40 +174,16 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *urlString = [NSString stringWithString:self.dataSource[indexPath.row].feedsLink];
     NSString *dataStr = [urlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSURL *url = [NSURL URLWithString:dataStr];
-    [[UIApplication sharedApplication]openURL:url options:@{} completionHandler:^(BOOL openUrl) {
-        NSLog(@"%@", openUrl ? @"Open URL":@"Can't open URL");
-    }];
+    WebViewController *webVC = [[WebViewController alloc]init];
+    [webVC.stringWithURL addObject:dataStr];
+    [self.navigationController pushViewController:webVC animated:YES];
+    [self.feedTableView deselectRowAtIndexPath:[self.feedTableView indexPathForSelectedRow] animated:YES];
+    [webVC release];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewAutomaticDimension;
-}
-
-#pragma mark - Feeds Loader
-
-- (void)feedsLoader {
-    __block typeof (self)weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [weakSelf setupButtonWithActivityIndicator];
-        [weakSelf.activityIndicator startAnimating];
-    });
-        [self.feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
-            if (error) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.activityIndicator stopAnimating];
-                    [weakSelf setupRefreshButton];
-                    [weakSelf presentViewController:[UIAlertController createAlertControllerWithAction] animated:YES completion:nil];
-                });
-            } else {
-                weakSelf.dataSource = feedsArray;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.activityIndicator stopAnimating];
-                    [weakSelf setupRefreshButton];
-                    [weakSelf.feedTableView reloadData];
-                });
-            }
-        }];
+    BOOL isContained = [self.selectedButtonsRows containsObject:indexPath];
+    return isContained ? extendedCellSize : UITableViewAutomaticDimension;
 }
 
 #pragma mark - Private Methods

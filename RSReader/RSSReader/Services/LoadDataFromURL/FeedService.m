@@ -27,15 +27,20 @@ NSString *const kUrl = @"https://news.tut.by/rss/index.rss";
 }
 
 - (void)loadFeeds:(void (^)(NSArray<Feeds *> *, NSError *))completion {
-    NSError *error = nil;
-    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:kUrl] options:NSDataReadingMapped error:&error];
-    
+    NSURL *url = [NSURL URLWithString:kUrl];
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url
+                                                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             completion(nil,error);
+            NSLog(@"Eror - %@",error);
             return;
         }
-    
+
         [self.parser parseFeeds:data completion:completion];
+    }];
+    
+    [dataTask resume];
 }
 
 - (void)dealloc
