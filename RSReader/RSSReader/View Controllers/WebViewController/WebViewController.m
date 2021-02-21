@@ -5,6 +5,7 @@
 //  Created by Eduard Ivash on 15.02.21.
 //
 
+#import <WebKit/WebKit.h>
 #import "WebViewController.h"
 
 NSString *const kBackButton = @"backButton";
@@ -13,9 +14,9 @@ NSString *const kRefreshButton = @"refreshButton";
 NSString *const kStopButton = @"stopButton";
 NSString *const kSafariButton = @"safariButton";
 
-@interface WebViewController () <UIWebViewDelegate>
+@interface WebViewController () <WKUIDelegate>
 
-@property (nonatomic, retain) UIWebView *webView;
+@property (nonatomic, retain) WKWebView *webView;
 @property (nonatomic, retain) UIBarButtonItem *backButton;
 @property (nonatomic, retain) UIBarButtonItem *forwardButton;
 @property (nonatomic, retain) UIBarButtonItem *refreshButton;
@@ -32,13 +33,13 @@ NSString *const kSafariButton = @"safariButton";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self customizeWebViewInWebViewVC];
+    [self setupWebViewLayout];
     
-    [self setToolbarItems:[NSArray arrayWithObjects:self.backButton,self.barButtonsSeparater,
-                           self.forwardButton,self.barButtonsSeparater,
-                           self.refreshButton,self.barButtonsSeparater,
-                           self.stopButton,self.barButtonsSeparater,
-                           self.safariButton,nil]];
+    self.toolbarItems = @[self.backButton,self.barButtonsSeparater,
+                          self.forwardButton,self.barButtonsSeparater,
+                          self.refreshButton,self.barButtonsSeparater,
+                          self.stopButton,self.barButtonsSeparater,
+                          self.safariButton];
     
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[self.stringWithURL objectAtIndex:0]]]];
 }
@@ -49,6 +50,16 @@ NSString *const kSafariButton = @"safariButton";
 }
 
 #pragma mark - Getters
+
+- (WKWebView *)webView {
+    if (!_webView) {
+        _webView = [WKWebView new];
+        _webView.backgroundColor = [UIColor whiteColor];
+        _webView.translatesAutoresizingMaskIntoConstraints = NO;
+        _webView.allowsBackForwardNavigationGestures = YES;
+    }
+    return _webView;
+}
 
 - (UIBarButtonItem *)backButton {
     if (!_backButton) {
@@ -102,28 +113,22 @@ NSString *const kSafariButton = @"safariButton";
 #pragma mark - ToolBarButton action
 
 -(void)safariAction {
-    [self.navigationController popToRootViewControllerAnimated:YES];
-    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:[_stringWithURL objectAtIndex:0]] options:@{} completionHandler:^(BOOL openUrl) {
+    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:[self.stringWithURL objectAtIndex:0]] options:@{} completionHandler:^(BOOL openUrl) {
         NSLog(@"%@", openUrl ? @"Open URL":@"Can't open URL");
     }];
 }
 
 #pragma mark - WebView customize
 
-- (void)customizeWebViewInWebViewVC {
-    if (!_webView) {
-        _webView = [UIWebView new];
-        [_webView setBackgroundColor:[UIColor whiteColor]];
-        _webView.delegate = self;
-        _webView.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.view addSubview:_webView];
+- (void)setupWebViewLayout {
+        [self.view addSubview:self.webView];
+    
         [NSLayoutConstraint activateConstraints:@[
-            [_webView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-            [_webView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-            [_webView.topAnchor constraintEqualToAnchor:self.view. safeAreaLayoutGuide.topAnchor],
-            [_webView.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor]
+            [self.webView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+            [self.webView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+            [self.webView.topAnchor constraintEqualToAnchor:self.view. safeAreaLayoutGuide.topAnchor],
+            [self.webView.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor]
         ]];
-    }
 }
 
 

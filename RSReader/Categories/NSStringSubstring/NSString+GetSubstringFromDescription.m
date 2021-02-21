@@ -9,7 +9,7 @@
 
 @implementation NSString (GetSubstringFromDescription)
 
-+ (NSString *)descriptionsSubstring:(NSString *)descriptiongString {
++ (NSString *)getDescriptionsSubstringFromRSSDescription:(NSString *)descriptiongString {
     NSRange r1 = [descriptiongString rangeOfString:@"/>"];
     NSRange r2 = [descriptiongString rangeOfString:@"<b"];
     NSRange rSub = NSMakeRange(r1.location + r1.length, r2.location - r1.location - r1.length);

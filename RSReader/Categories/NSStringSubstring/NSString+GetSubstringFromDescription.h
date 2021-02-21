@@ -9,6 +9,6 @@
 
 @interface NSString (GetSubstringFromDescription)
 
-+ (NSString *)descriptionsSubstring:(NSString *)descriptiongString;
++ (NSString *)getDescriptionsSubstringFromRSSDescription:(NSString *)descriptiongString;
 
 @end
