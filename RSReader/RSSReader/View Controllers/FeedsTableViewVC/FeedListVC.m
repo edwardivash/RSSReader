@@ -17,6 +17,8 @@ NSString *const kNavigationBarTitle = @"RSSReader";
 NSString *const kRefreshButtonName = @"refreshIcon";
 NSString *const kCellId = @"CellId";
 NSString *const kFeedCellName = @"FeedTableViewCell";
+CGFloat defaultHeightCell = 150;
+CGFloat extendedCell;
 
 @interface FeedListVC () <UITableViewDelegate, UITableViewDataSource>
 
@@ -59,18 +61,18 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
     [self.feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.activityIndicator stopAnimating];
-                [weakSelf setupRefreshButton];
                 [weakSelf presentViewController:[UIAlertController createAlertControllerWithAction] animated:YES completion:nil];
             });
         } else {
             weakSelf.dataSource = feedsArray;
             dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.activityIndicator stopAnimating];
-                [weakSelf setupRefreshButton];
                 [weakSelf.feedTableView reloadData];
             });
         }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.activityIndicator stopAnimating];
+            [weakSelf setupRefreshButton];
+        });
     }];
 }
 
@@ -143,24 +145,30 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
     
     FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
     typeof (self)weakSelf = self;
-    
-    [cell configureFeedItem:self.dataSource[indexPath.row] arrayOfRows:self.selectedButtonsRows indP:indexPath completion:^(UITableViewCell *cell, NSError *error) {
+
+    [cell configureFeedItem:self.dataSource[indexPath.row] arrayOfRows:self.selectedButtonsRows indP:indexPath completion:^(UITableViewCell *cell, CGSize selectedCellSize, NSError *error) {
     
         if (!cell) {
             NSLog(@"%@",error);
             return;
         }
-                
+        
         NSIndexPath *path = [tableView indexPathForCell:cell];
         BOOL isContained = [self.selectedButtonsRows containsObject:path];
         isContained ? [weakSelf.selectedButtonsRows removeObject:path] :             [weakSelf.selectedButtonsRows addObject:path];
+        isContained = !isContained;
+        
+        if (isContained) {
+            extendedCell = selectedCellSize.height;
+        }
+        
         [UIView animateWithDuration:0.5 animations:^{
             [weakSelf.feedTableView beginUpdates];
-            [cell.contentView layoutSubviews];
             [weakSelf.feedTableView endUpdates];
         }];
     }];
-        return cell;
+    
+     return cell;
 }
      
 #pragma mark - Delegate
@@ -176,12 +184,12 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 }
      
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewAutomaticDimension;
+    if ([self.selectedButtonsRows containsObject:indexPath]) {
+        return extendedCell + defaultHeightCell;
+    }
+    return defaultHeightCell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewAutomaticDimension;
-}
 
 #pragma mark - Private Methods
 

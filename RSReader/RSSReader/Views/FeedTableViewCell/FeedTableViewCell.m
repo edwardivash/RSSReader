@@ -8,11 +8,12 @@
 #import "FeedTableViewCell.h"
 #import "Feeds.h"
 #import "FeedListVC.h"
+#import "SelectedButtonsStateModel.h"
 #import "NSString+GetSubstringFromDescription.h"
 
 NSString *const kSelectedImageName = @"buttonActive";
 NSString *const kDisabledImageName = @"buttonDisabled";
-CGFloat descTextViewFontSize = 20;
+CGFloat descTextViewFontSize = 18;
 CGFloat heightTextViewConstraintPripority = 999;
 
 @interface FeedTableViewCell ()
@@ -22,8 +23,8 @@ CGFloat heightTextViewConstraintPripority = 999;
 @property (retain, nonatomic) IBOutlet UILabel *pubDateLabel;
 @property (retain, nonatomic) UITextView *descTextView;
 @property (retain, nonatomic) NSLayoutConstraint *heightTextViewConstraint;
-@property (copy, nonatomic) void(^feedItemConfiguration)(UITableViewCell *cell, NSError *error);
-@property (retain, nonatomic) NSMutableArray<NSIndexPath *> *selectedButtons;
+@property (copy, nonatomic) void(^feedItemConfiguration)(UITableViewCell *cell, CGSize selectedCellSize, NSError *error);
+@property (retain, nonatomic) SelectedButtonsStateModel *selectedButtonsModel;
 
 @end
 
@@ -33,7 +34,7 @@ CGFloat heightTextViewConstraintPripority = 999;
     [super awakeFromNib];
         
     [self setDescTextViewLayout];
-    [self.descriptionButton addTarget:self action:@selector(didTapButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.descriptionButton addTarget:self action:@selector(didTapButton:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 #pragma mark - Getters
@@ -61,14 +62,14 @@ CGFloat heightTextViewConstraintPripority = 999;
     return _descriptionButton;
 }
 
-- (NSMutableArray *)selectedButtons {
-    if (!_selectedButtons) {
-        _selectedButtons = [[NSMutableArray alloc] init];
+- (SelectedButtonsStateModel *)selectedButtonsModel {
+    if (!_selectedButtonsModel) {
+        _selectedButtonsModel = [SelectedButtonsStateModel new];
     }
-    return _selectedButtons;
+    return _selectedButtonsModel;
 }
 
-- (void (^)(UITableViewCell *, NSError *error))feedItemConfiguration {
+- (void (^)(UITableViewCell *, CGSize selectedCellSize, NSError *error))feedItemConfiguration {
     return _feedItemConfiguration;
 }
 
@@ -79,28 +80,32 @@ CGFloat heightTextViewConstraintPripority = 999;
     return _heightTextViewConstraint;
 }
 
+
 #pragma mark - Button Tap
 
-- (void)didTapButton {
+- (void)didTapButton:(SelectedButtonsStateModel *)selectedButtonsModel {
+
     NSIndexPath *indPath = [[[NSIndexPath alloc] initWithIndex:self.descriptionButton.tag] autorelease];
-    BOOL isContains = [self.selectedButtons containsObject:indPath];
-    isContains ? [self.selectedButtons removeObject:indPath] : [self.selectedButtons addObject:indPath];
-    isContains = !isContains;
-    
-    UIImage *img = isContains ? [UIImage imageNamed:kSelectedImageName] : [UIImage imageNamed:kDisabledImageName];
+    BOOL isContained = [self.selectedButtonsModel.selectedButtons containsObject:indPath];
+    isContained ? [self.selectedButtonsModel.selectedButtons removeObject:indPath] : [self.selectedButtonsModel.selectedButtons addObject:indPath];
+    isContained = !isContained;
+
+    UIImage *img = isContained ? [UIImage imageNamed:kSelectedImageName] : [UIImage imageNamed:kDisabledImageName];
     [self.descriptionButton setImage:img forState:UIControlStateNormal];
-    
+
     CGSize textViewFrameSize = [self.descTextView sizeThatFits:self.descTextView.frame.size];
-    isContains ? [self.heightTextViewConstraint setConstant:textViewFrameSize.height]  : [self.heightTextViewConstraint setConstant:0];
-    isContains ? [self.descTextView setHidden:NO] : [self.descTextView setHidden:YES];
-    
-    self.feedItemConfiguration(self,nil);
+    isContained ? [self.heightTextViewConstraint setConstant:textViewFrameSize.height]  : [self.heightTextViewConstraint setConstant:0];
+    isContained ? [self.descTextView setHidden:NO] : [self.descTextView setHidden:YES];
+
+   [self.contentView setNeedsLayout];
+        
+   self.feedItemConfiguration(self,textViewFrameSize,nil);
 }
 
 
 #pragma mark - Configure Feed Item
 
-- (void)configureFeedItem:(Feeds *)feed arrayOfRows:(NSMutableArray *)selectedRows indP:(NSIndexPath *)indexPath completion:(void(^)(UITableViewCell *cell, NSError *error)) feedItemConfiguration {
+- (void)configureFeedItem:(Feeds *)feed arrayOfRows:(NSMutableArray *)selectedRows indP:(NSIndexPath *)indexPath completion:(void(^)(UITableViewCell *cell, CGSize selectedCellSize, NSError *error)) feedItemConfiguration {
 
     self.feedItemConfiguration = feedItemConfiguration;
     
@@ -115,8 +120,9 @@ CGFloat heightTextViewConstraintPripority = 999;
     
     CGSize textViewFrameSize = [self.descTextView sizeThatFits:self.descTextView.frame.size];
     isContained ? [self.heightTextViewConstraint setConstant:textViewFrameSize.height]  : [self.heightTextViewConstraint setConstant:0];
-    
-    isContained ? [self.descTextView setHidden:NO] : [self.descTextView setHidden:YES];
+    [self.descTextView setHidden:!isContained];
+     
+    [self.contentView layoutSubviews];
 }
 
 #pragma mark - Layout
@@ -130,7 +136,7 @@ CGFloat heightTextViewConstraintPripority = 999;
         [self.descTextView.topAnchor constraintEqualToAnchor:self.feedLabel.bottomAnchor],
         [self.descTextView.bottomAnchor constraintEqualToAnchor:self.pubDateLabel.topAnchor]
     ]];
-    
+        
     self.heightTextViewConstraint =
                            [NSLayoutConstraint constraintWithItem:self.descTextView
                            attribute:NSLayoutAttributeHeight
@@ -141,6 +147,9 @@ CGFloat heightTextViewConstraintPripority = 999;
                            constant:0];
     
     self.heightTextViewConstraint.priority = heightTextViewConstraintPripority;
+    [self.descTextView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    [self.descTextView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    
     [self addConstraint:self.heightTextViewConstraint];
 }
 
@@ -149,7 +158,7 @@ CGFloat heightTextViewConstraintPripority = 999;
     [_pubDateLabel release];
     [_descTextView release];
     [_descriptionButton release];
-    [_selectedButtons release];
+    [_selectedButtonsModel release];
     [_feedItemConfiguration release];
     [_heightTextViewConstraint release];
     [super dealloc];

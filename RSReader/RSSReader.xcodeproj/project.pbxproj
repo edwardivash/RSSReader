@@ -17,6 +17,7 @@
 		D723D9B92563D2DC003DF465 /* Feeds.m in Sources */ = {isa = PBXBuildFile; fileRef = D723D9B82563D2DC003DF465 /* Feeds.m */; };
 		D73C3C8B25658A9A0097261C /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D73C3C8925658A9A0097261C /* FeedTableViewCell.m */; };
 		D73C3C8C25658A9A0097261C /* FeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D73C3C8A25658A9A0097261C /* FeedTableViewCell.xib */; };
+		D7489EF925E42E5600E354A4 /* SelectedButtonsStateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D7489EF825E42E5600E354A4 /* SelectedButtonsStateModel.m */; };
 		D756469825700E020074F03F /* NSXMLParser+SetDataWithDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D756469725700E020074F03F /* NSXMLParser+SetDataWithDelegate.m */; };
 		D75B3110256D1A5B009910B2 /* NSString+DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D75B310F256D1A5B009910B2 /* NSString+DateFormatter.m */; };
 		D76B96BA25B9DA130041E109 /* Localized.strings in Resources */ = {isa = PBXBuildFile; fileRef = D76B96B925B9DA130041E109 /* Localized.strings */; };
@@ -45,6 +46,8 @@
 		D73C3C8825658A9A0097261C /* FeedTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedTableViewCell.h; sourceTree = "<group>"; };
 		D73C3C8925658A9A0097261C /* FeedTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewCell.m; sourceTree = "<group>"; };
 		D73C3C8A25658A9A0097261C /* FeedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedTableViewCell.xib; sourceTree = "<group>"; };
+		D7489EF725E42E5600E354A4 /* SelectedButtonsStateModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectedButtonsStateModel.h; sourceTree = "<group>"; };
+		D7489EF825E42E5600E354A4 /* SelectedButtonsStateModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectedButtonsStateModel.m; sourceTree = "<group>"; };
 		D756469525700DB20074F03F /* NSXMLParser+SetDataWithDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSXMLParser+SetDataWithDelegate.h"; sourceTree = "<group>"; };
 		D756469725700E020074F03F /* NSXMLParser+SetDataWithDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSXMLParser+SetDataWithDelegate.m"; sourceTree = "<group>"; };
 		D75B310D256D19E6009910B2 /* NSString+DateFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+DateFormatter.h"; sourceTree = "<group>"; };
@@ -192,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				D722DAD5256BEEB3007FC3C3 /* FeedsModel */,
+				D7489EFB25E42E6100E354A4 /* SelectedButtonsModel */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -202,6 +206,15 @@
 				D789E13125640A2100AAE598 /* RSSReader.rtf */,
 			);
 			path = Task;
+			sourceTree = "<group>";
+		};
+		D7489EFB25E42E6100E354A4 /* SelectedButtonsModel */ = {
+			isa = PBXGroup;
+			children = (
+				D7489EF725E42E5600E354A4 /* SelectedButtonsStateModel.h */,
+				D7489EF825E42E5600E354A4 /* SelectedButtonsStateModel.m */,
+			);
+			path = SelectedButtonsModel;
 			sourceTree = "<group>";
 		};
 		D756469225700B5D0074F03F /* NSDateFormatter */ = {
@@ -335,6 +348,7 @@
 				D75B3110256D1A5B009910B2 /* NSString+DateFormatter.m in Sources */,
 				D78243B425DAEEC200D3CED3 /* WebViewController.m in Sources */,
 				D723D9AF2563C890003DF465 /* FeedListVC.m in Sources */,
+				D7489EF925E42E5600E354A4 /* SelectedButtonsStateModel.m in Sources */,
 				D76D7618257A5EB7002E355F /* UIAlertController+CreateAlertController.m in Sources */,
 				D78243BA25DAF05900D3CED3 /* NSString+GetSubstringFromDescription.m in Sources */,
 				D723D9B92563D2DC003DF465 /* Feeds.m in Sources */,
