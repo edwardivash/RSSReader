@@ -17,8 +17,6 @@ NSString *const kNavigationBarTitle = @"RSSReader";
 NSString *const kRefreshButtonName = @"refreshIcon";
 NSString *const kCellId = @"CellId";
 NSString *const kFeedCellName = @"FeedTableViewCell";
-CGFloat defaultHeightCell = 150;
-CGFloat extendedCell;
 
 @interface FeedListVC () <UITableViewDelegate, UITableViewDataSource>
 
@@ -29,7 +27,7 @@ CGFloat extendedCell;
 @property (retain, nonatomic) FeedService *feedService;
 @property (retain, nonatomic) RSXmlParser *parser;
 @property (retain, nonatomic) NSArray<Feeds*> *dataSource;
-@property (retain, nonatomic) NSMutableArray<NSIndexPath *>*selectedButtonsRows;
+@property (retain, nonatomic) NSMutableArray *selectedButtons;
 
 @end
 
@@ -77,6 +75,13 @@ CGFloat extendedCell;
 }
 
 #pragma mark - Getters
+
+- (NSMutableArray *)selectedButtons {
+    if (!_selectedButtons) {
+        _selectedButtons = [NSMutableArray new];
+    }
+    return _selectedButtons;
+}
 
 - (UITableView *)feedTableView {
     if (!_feedTableView) {
@@ -128,13 +133,6 @@ CGFloat extendedCell;
     return _parser;
 }
 
-- (NSMutableArray<NSIndexPath *> *)selectedButtonsRows {
-    if (!_selectedButtonsRows) {
-        _selectedButtonsRows = [[NSMutableArray alloc] init];
-    }
-    return _selectedButtonsRows;
-}
-
 #pragma mark - DataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -145,29 +143,24 @@ CGFloat extendedCell;
     
     FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
     typeof (self)weakSelf = self;
-
-    [cell configureFeedItem:self.dataSource[indexPath.row] arrayOfRows:self.selectedButtonsRows indP:indexPath completion:^(UITableViewCell *cell, CGSize selectedCellSize, NSError *error) {
     
+    [cell configureFeedItem:self.dataSource[indexPath.row] indP:indexPath selectedButtonsInRows:self.selectedButtons completion:^{
+        
         if (!cell) {
-            NSLog(@"%@",error);
+            NSLog(@"Error");
             return;
         }
         
+        BOOL isContained;
         NSIndexPath *path = [tableView indexPathForCell:cell];
-        BOOL isContained = [self.selectedButtonsRows containsObject:path];
-        isContained ? [weakSelf.selectedButtonsRows removeObject:path] :             [weakSelf.selectedButtonsRows addObject:path];
-        isContained = !isContained;
-        
-        if (isContained) {
-            extendedCell = selectedCellSize.height;
-        }
-        
+        isContained = [self.selectedButtons containsObject:path];
+        isContained ? [weakSelf.selectedButtons removeObject:path] :             [weakSelf.selectedButtons addObject:path];
+       
         [UIView animateWithDuration:0.5 animations:^{
             [weakSelf.feedTableView beginUpdates];
             [weakSelf.feedTableView endUpdates];
         }];
     }];
-    
      return cell;
 }
      
@@ -184,10 +177,7 @@ CGFloat extendedCell;
 }
      
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.selectedButtonsRows containsObject:indexPath]) {
-        return extendedCell + defaultHeightCell;
-    }
-    return defaultHeightCell;
+    return UITableViewAutomaticDimension;
 }
 
 
@@ -225,7 +215,7 @@ CGFloat extendedCell;
     [_dataSource release];
     [_feedService release];
     [_parser release];
-    [_selectedButtonsRows release];
+    [_selectedButtons release];
     [super dealloc];
 }
      

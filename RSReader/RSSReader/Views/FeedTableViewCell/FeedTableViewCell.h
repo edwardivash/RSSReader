@@ -14,6 +14,6 @@ extern NSString *const kDisabledImageName;
 
 @interface FeedTableViewCell : UITableViewCell
 
-- (void)configureFeedItem:(Feeds *)feed arrayOfRows:(NSMutableArray *)selectedRows indP:(NSIndexPath *)indexPath completion:(void(^)(UITableViewCell *cell, CGSize selectedCellSize, NSError *error)) feedItemConfiguration;
+- (void)configureFeedItem:(Feeds *)feed indP:(NSIndexPath *)indexPath selectedButtonsInRows:(NSMutableArray *)selectedButtons completion:(void(^)(void)) feedItemConfiguration;
 
 @end
