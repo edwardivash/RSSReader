@@ -11,9 +11,8 @@
 #import "SelectedButtonsStateModel.h"
 #import "NSString+GetSubstringFromDescription.h"
 
-NSString *const kSelectedImageName = @"buttonActive";
-NSString *const kDisabledImageName = @"buttonDisabled";
 CGFloat kHeightTextViewConstraintPripority = 999;
+CGFloat kAnimationDuration = 0.7;
 
 @interface FeedTableViewCell ()
 
@@ -22,7 +21,7 @@ CGFloat kHeightTextViewConstraintPripority = 999;
 @property (retain, nonatomic) IBOutlet UILabel *pubDateLabel;
 @property (retain, nonatomic) IBOutlet UITextView *descTextView;
 @property (retain, nonatomic) NSLayoutConstraint *heightTextViewConstraint;
-@property (copy, nonatomic) void(^feedItemConfiguration)(void);
+@property (copy, nonatomic) void(^didTapHandler)(void);
 @property (retain, nonatomic) SelectedButtonsStateModel *selectedButtonsModel;
 
 @end
@@ -33,7 +32,6 @@ CGFloat kHeightTextViewConstraintPripority = 999;
     [super awakeFromNib];
         
     [self setDescTextViewLayout];
-    [self.descriptionButton addTarget:self action:@selector(didTapButton) forControlEvents:UIControlEventTouchUpInside];
 }
 
 #pragma mark - Getters
@@ -52,36 +50,32 @@ CGFloat kHeightTextViewConstraintPripority = 999;
     return _descriptionButton;
 }
 
-- (void (^)(void))feedItemConfiguration {
-    return _feedItemConfiguration;
-}
-
 #pragma mark - Button Tap
 
-- (void)didTapButton {
+- (IBAction)didTapAction:(UIButton *)sender {
     
-    NSIndexPath *buttonIdentificator = [NSIndexPath indexPathWithIndex:self.descriptionButton.tag];
-    BOOL isContained = [self.selectedButtonsModel.selectedButtons containsObject:buttonIdentificator];
-    isContained ? [self.selectedButtonsModel.selectedButtons removeObject:buttonIdentificator] : [self.selectedButtonsModel.selectedButtons addObject:buttonIdentificator];
+    NSInteger buttonIdentificator = self.descriptionButton.tag;
+    BOOL isContained = [self.selectedButtonsModel.selectedButtons containsIndex:buttonIdentificator];
+    isContained ? [self.selectedButtonsModel.selectedButtons removeIndex:buttonIdentificator] : [self.selectedButtonsModel.selectedButtons addIndex:buttonIdentificator];
+    self.descriptionButton.selected = !isContained;
     isContained = !isContained;
-    
-    UIImage *img = isContained ? [UIImage imageNamed:kSelectedImageName] : [UIImage imageNamed:kDisabledImageName];
-    [self.descriptionButton setImage:img forState:UIControlStateNormal];
-    
-    [UIView animateWithDuration:0.7 animations:^{
-        isContained ? [self.heightTextViewConstraint setConstant:self.descTextView.contentSize.height]  : [self.heightTextViewConstraint setConstant:0];
-        [self.descTextView setHidden:!isContained];
+        
+    [UIView animateWithDuration:kAnimationDuration animations:^{
+        self.heightTextViewConstraint.constant = isContained ? self.descTextView.contentSize.height : 0;
+        self.descTextView.hidden = !isContained;
         [self.contentView layoutIfNeeded];
     }];
     
-    self.feedItemConfiguration();
+    if (self.didTapHandler) {
+        self.didTapHandler();
+    }
 }
 
 #pragma mark - Configure Feed Item
 
-- (void)configureFeedItem:(Feeds *)feed indP:(NSIndexPath *)indexPath selectedButtonsInRows:(NSMutableArray *)selectedButtons completion:(void(^)(void)) feedItemConfiguration {
+- (void)configureFeedItem:(Feeds *)feed indexPath:(NSIndexPath *)indexPath selectedButtonsInRows:(NSMutableIndexSet *)selectedButtons handler:(void(^)(void)) didTapHandler {
     
-    self.feedItemConfiguration = feedItemConfiguration;
+    self.didTapHandler = didTapHandler;
     
     self.feedLabel.text = feed.feedsTitle;
     self.pubDateLabel.text = feed.feedsPubDate;
@@ -89,25 +83,16 @@ CGFloat kHeightTextViewConstraintPripority = 999;
     self.descriptionButton.tag = indexPath.row;
     self.selectedButtonsModel.selectedButtons = selectedButtons;
     
-    BOOL isContained = [selectedButtons containsObject:indexPath];
-    UIImage *image = isContained ? [UIImage imageNamed:kSelectedImageName] : [UIImage imageNamed:kDisabledImageName];
-    [self.descriptionButton setImage:image forState:UIControlStateNormal];
-    [self.descTextView setHidden:!isContained];
-    isContained ? [self.heightTextViewConstraint setConstant:self.descTextView.contentSize.height]  : [self.heightTextViewConstraint setConstant:0];
+    BOOL isContained = [selectedButtons containsIndex:indexPath.row];
+    self.descriptionButton.selected = isContained;
+    self.descTextView.hidden = !isContained;
+    self.heightTextViewConstraint.constant = isContained ? self.descTextView.contentSize.height : 0;
 }
 
 #pragma mark - Layout
 
 - (void)setDescTextViewLayout {
-    self.heightTextViewConstraint =
-                           [NSLayoutConstraint constraintWithItem:self.descTextView
-                           attribute:NSLayoutAttributeHeight
-                           relatedBy:NSLayoutRelationEqual
-                           toItem:nil
-                           attribute:NSLayoutAttributeHeight
-                           multiplier:0.f
-                           constant:0];
-    
+    self.heightTextViewConstraint = [self.descTextView.heightAnchor constraintEqualToConstant:0];
     self.heightTextViewConstraint.priority = kHeightTextViewConstraintPripority;
     self.heightTextViewConstraint.active = YES;
 }
@@ -117,8 +102,7 @@ CGFloat kHeightTextViewConstraintPripority = 999;
     [_pubDateLabel release];
     [_descTextView release];
     [_descriptionButton release];
-    [_selectedButtonsModel release];
-    [_feedItemConfiguration release];
+    [_didTapHandler release];
     [_heightTextViewConstraint release];
     [_selectedButtonsModel release];
     [super dealloc];

@@ -9,6 +9,6 @@
 
 @interface SelectedButtonsStateModel : NSObject
 
-@property (nonatomic, retain) NSMutableArray* selectedButtons;
+@property (nonatomic, retain) NSMutableIndexSet* selectedButtons;
 
 @end

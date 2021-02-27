@@ -9,9 +9,9 @@
 
 @implementation SelectedButtonsStateModel
 
-- (NSMutableArray *)selectedButtons {
+- (NSMutableIndexSet *)selectedButtons {
     if (!_selectedButtons) {
-        _selectedButtons = [[NSMutableArray alloc] init];
+        _selectedButtons = [[NSMutableIndexSet alloc] init];
     }
     return _selectedButtons;
 }

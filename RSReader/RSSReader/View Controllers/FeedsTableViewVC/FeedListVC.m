@@ -27,7 +27,7 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 @property (retain, nonatomic) FeedService *feedService;
 @property (retain, nonatomic) RSXmlParser *parser;
 @property (retain, nonatomic) NSArray<Feeds*> *dataSource;
-@property (retain, nonatomic) NSMutableArray *selectedButtons;
+@property (retain, nonatomic) NSMutableIndexSet *selectedButtons;
 
 @end
 
@@ -76,9 +76,9 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 
 #pragma mark - Getters
 
-- (NSMutableArray *)selectedButtons {
+- (NSMutableIndexSet *)selectedButtons {
     if (!_selectedButtons) {
-        _selectedButtons = [NSMutableArray new];
+        _selectedButtons = [NSMutableIndexSet new];
     }
     return _selectedButtons;
 }
@@ -144,26 +144,20 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
     FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
     typeof (self)weakSelf = self;
     
-    [cell configureFeedItem:self.dataSource[indexPath.row] indP:indexPath selectedButtonsInRows:self.selectedButtons completion:^{
+    [cell configureFeedItem:self.dataSource[indexPath.row] indexPath:indexPath selectedButtonsInRows:self.selectedButtons handler:^{
         
-        if (!cell) {
-            NSLog(@"Error");
-            return;
-        }
+        [self.selectedButtons containsIndex:indexPath.row] ?
+        [weakSelf.selectedButtons containsIndex:indexPath.row] :
+        [weakSelf.selectedButtons containsIndex:indexPath.row];
         
-        BOOL isContained;
-        NSIndexPath *path = [tableView indexPathForCell:cell];
-        isContained = [self.selectedButtons containsObject:path];
-        isContained ? [weakSelf.selectedButtons removeObject:path] :             [weakSelf.selectedButtons addObject:path];
-       
         [UIView animateWithDuration:0.5 animations:^{
             [weakSelf.feedTableView beginUpdates];
             [weakSelf.feedTableView endUpdates];
         }];
     }];
-     return cell;
+    return cell;
 }
-     
+
 #pragma mark - Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -175,7 +169,7 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
     [self.feedTableView deselectRowAtIndexPath:[self.feedTableView indexPathForSelectedRow] animated:YES];
     [webVC release];
 }
-     
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewAutomaticDimension;
 }
@@ -193,7 +187,7 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
         [self.feedTableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
     ]];
 }
-     
+
 - (void)setupButtonWithActivityIndicator {
     self.navigationItem.rightBarButtonItem = self.buttonWithActivityIndicator;
 }
@@ -218,5 +212,5 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
     [_selectedButtons release];
     [super dealloc];
 }
-     
-     @end
+
+@end
