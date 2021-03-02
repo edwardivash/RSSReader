@@ -11,6 +11,7 @@
 #import "RSXmlParser.h"
 #import "Feeds.h"
 #import "UIAlertController+CreateAlertController.h"
+#import "WebViewController.h"
 
 NSString *const kNavigationBarTitle = @"RSSReader";
 NSString *const kRefreshButtonName = @"refreshIcon";
@@ -26,6 +27,7 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 @property (retain, nonatomic) FeedService *feedService;
 @property (retain, nonatomic) RSXmlParser *parser;
 @property (retain, nonatomic) NSArray<Feeds*> *dataSource;
+@property (retain, nonatomic) NSMutableIndexSet *selectedButtons;
 
 @end
 
@@ -37,10 +39,49 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
     [super viewDidLoad];
     
     self.navigationItem.title = kNavigationBarTitle;
-    [NSThread detachNewThreadSelector:@selector(feedsLoader) toTarget:self withObject:nil];
+    [self setTableViewLayout];
+    [self feedsLoader];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setToolbarHidden:YES animated:NO];
+}
+
+#pragma mark - Feeds Loader
+
+- (void)feedsLoader {
+    __block typeof (self)weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf setupButtonWithActivityIndicator];
+        [weakSelf.activityIndicator startAnimating];
+    });
+    [self.feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
+        if (error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf presentViewController:[UIAlertController createAlertControllerWithAction] animated:YES completion:nil];
+            });
+        } else {
+            weakSelf.dataSource = feedsArray;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.feedTableView reloadData];
+            });
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.activityIndicator stopAnimating];
+            [weakSelf setupRefreshButton];
+        });
+    }];
 }
 
 #pragma mark - Getters
+
+- (NSMutableIndexSet *)selectedButtons {
+    if (!_selectedButtons) {
+        _selectedButtons = [NSMutableIndexSet new];
+    }
+    return _selectedButtons;
+}
 
 - (UITableView *)feedTableView {
     if (!_feedTableView) {
@@ -49,14 +90,6 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
         _feedTableView.delegate = self;
         _feedTableView.dataSource = self;
         [_feedTableView registerNib:[UINib nibWithNibName:kFeedCellName bundle:nil] forCellReuseIdentifier:kCellId];
-        [self.view addSubview:_feedTableView];
-        
-        [NSLayoutConstraint activateConstraints:@[
-            [_feedTableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-            [_feedTableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-            [_feedTableView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-            [_feedTableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
-        ]];
     }
     return _feedTableView;
 }
@@ -107,9 +140,21 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
-    [cell configureFeedItem:self.dataSource[indexPath.row]];
     
+    FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellId forIndexPath:indexPath];
+    typeof (self)weakSelf = self;
+    
+    [cell configureFeedItem:self.dataSource[indexPath.row] indexPath:indexPath selectedButtonsInRows:self.selectedButtons handler:^{
+        
+        [self.selectedButtons containsIndex:indexPath.row] ?
+        [weakSelf.selectedButtons containsIndex:indexPath.row] :
+        [weakSelf.selectedButtons containsIndex:indexPath.row];
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            [weakSelf.feedTableView beginUpdates];
+            [weakSelf.feedTableView endUpdates];
+        }];
+    }];
     return cell;
 }
 
@@ -118,43 +163,30 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *urlString = [NSString stringWithString:self.dataSource[indexPath.row].feedsLink];
     NSString *dataStr = [urlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSURL *url = [NSURL URLWithString:dataStr];
-    [[UIApplication sharedApplication]openURL:url options:@{} completionHandler:^(BOOL openUrl) {
-        NSLog(@"%@", openUrl ? @"Open URL":@"Can't open URL");
-    }];
+    WebViewController *webVC = [[WebViewController alloc]init];
+    [webVC.stringWithURL addObject:dataStr];
+    [self.navigationController pushViewController:webVC animated:YES];
+    [self.feedTableView deselectRowAtIndexPath:[self.feedTableView indexPathForSelectedRow] animated:YES];
+    [webVC release];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewAutomaticDimension;
 }
 
-#pragma mark - Feeds Loader
-
-- (void)feedsLoader {
-    __block typeof (self)weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [weakSelf setupButtonWithActivityIndicator];
-        [weakSelf.activityIndicator startAnimating];
-    });
-        [self.feedService loadFeeds:^(NSArray<Feeds *> *feedsArray, NSError * error) {
-            if (error) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.activityIndicator stopAnimating];
-                    [weakSelf setupRefreshButton];
-                    [weakSelf presentViewController:[UIAlertController createAlertControllerWithAction] animated:YES completion:nil];
-                });
-            } else {
-                weakSelf.dataSource = feedsArray;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.activityIndicator stopAnimating];
-                    [weakSelf setupRefreshButton];
-                    [weakSelf.feedTableView reloadData];
-                });
-            }
-        }];
-}
 
 #pragma mark - Private Methods
+
+- (void)setTableViewLayout {
+    [self.view addSubview:self.feedTableView];
+    
+    [NSLayoutConstraint activateConstraints:@[
+        [self.feedTableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.feedTableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [self.feedTableView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        [self.feedTableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+    ]];
+}
 
 - (void)setupButtonWithActivityIndicator {
     self.navigationItem.rightBarButtonItem = self.buttonWithActivityIndicator;
@@ -166,14 +198,10 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 
 - (void)refreshButtonAction {
     [NSThread detachNewThreadSelector:@selector(feedsLoader) toTarget:self withObject:nil];
-    if (self.dataSource) {
-        [self.feedTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
-    }
 }
 
 
-- (void)dealloc
-{
+- (void)dealloc {
     [_feedTableView release];
     [_activityIndicator release];
     [_buttonWithActivityIndicator release];
@@ -181,6 +209,7 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
     [_dataSource release];
     [_feedService release];
     [_parser release];
+    [_selectedButtons release];
     [super dealloc];
 }
 
