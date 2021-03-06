@@ -17,6 +17,14 @@
 		D723D9B92563D2DC003DF465 /* Feeds.m in Sources */ = {isa = PBXBuildFile; fileRef = D723D9B82563D2DC003DF465 /* Feeds.m */; };
 		D73C3C8B25658A9A0097261C /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D73C3C8925658A9A0097261C /* FeedTableViewCell.m */; };
 		D73C3C8C25658A9A0097261C /* FeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D73C3C8A25658A9A0097261C /* FeedTableViewCell.xib */; };
+		D7466EDD25F396D500DAAE51 /* RSSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7466EDC25F396D500DAAE51 /* RSSViewController.m */; };
+		D7466EE425F3987B00DAAE51 /* RSSCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7466EE225F3987A00DAAE51 /* RSSCell.xib */; };
+		D7466EE525F3987B00DAAE51 /* RSSCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D7466EE325F3987A00DAAE51 /* RSSCell.m */; };
+		D7466EEB25F398A900DAAE51 /* NSURL+URLFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D7466EEA25F398A900DAAE51 /* NSURL+URLFormatter.m */; };
+		D7466EF125F398D100DAAE51 /* NSString+URLStringValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D7466EF025F398D100DAAE51 /* NSString+URLStringValidator.m */; };
+		D7466EF825F398F800DAAE51 /* UIAlertController+ErrorAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7466EF725F398F800DAAE51 /* UIAlertController+ErrorAlertController.m */; };
+		D7466EFE25F3992000DAAE51 /* UIAlertController+RSSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7466EFC25F3992000DAAE51 /* UIAlertController+RSSAlertController.m */; };
+		D7466F0325F3999900DAAE51 /* HtmlParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D7466EC225F3950000DAAE51 /* HtmlParser.m */; };
 		D7489EF925E42E5600E354A4 /* SelectedButtonsStateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D7489EF825E42E5600E354A4 /* SelectedButtonsStateModel.m */; };
 		D756469825700E020074F03F /* NSXMLParser+SetDataWithDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D756469725700E020074F03F /* NSXMLParser+SetDataWithDelegate.m */; };
 		D75B3110256D1A5B009910B2 /* NSString+DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D75B310F256D1A5B009910B2 /* NSString+DateFormatter.m */; };
@@ -46,6 +54,21 @@
 		D73C3C8825658A9A0097261C /* FeedTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedTableViewCell.h; sourceTree = "<group>"; };
 		D73C3C8925658A9A0097261C /* FeedTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewCell.m; sourceTree = "<group>"; };
 		D73C3C8A25658A9A0097261C /* FeedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedTableViewCell.xib; sourceTree = "<group>"; };
+		D7466EC225F3950000DAAE51 /* HtmlParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HtmlParser.m; sourceTree = "<group>"; };
+		D7466EC325F3950000DAAE51 /* HtmlParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HtmlParser.h; sourceTree = "<group>"; };
+		D7466EDB25F396D500DAAE51 /* RSSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSViewController.h; sourceTree = "<group>"; };
+		D7466EDC25F396D500DAAE51 /* RSSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSViewController.m; sourceTree = "<group>"; };
+		D7466EE125F3987A00DAAE51 /* RSSCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSCell.h; sourceTree = "<group>"; };
+		D7466EE225F3987A00DAAE51 /* RSSCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RSSCell.xib; sourceTree = "<group>"; };
+		D7466EE325F3987A00DAAE51 /* RSSCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSCell.m; sourceTree = "<group>"; };
+		D7466EE925F398A900DAAE51 /* NSURL+URLFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+URLFormatter.h"; sourceTree = "<group>"; };
+		D7466EEA25F398A900DAAE51 /* NSURL+URLFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+URLFormatter.m"; sourceTree = "<group>"; };
+		D7466EEF25F398D100DAAE51 /* NSString+URLStringValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLStringValidator.h"; sourceTree = "<group>"; };
+		D7466EF025F398D100DAAE51 /* NSString+URLStringValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLStringValidator.m"; sourceTree = "<group>"; };
+		D7466EF625F398F800DAAE51 /* UIAlertController+ErrorAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertController+ErrorAlertController.h"; sourceTree = "<group>"; };
+		D7466EF725F398F800DAAE51 /* UIAlertController+ErrorAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertController+ErrorAlertController.m"; sourceTree = "<group>"; };
+		D7466EFC25F3992000DAAE51 /* UIAlertController+RSSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertController+RSSAlertController.m"; sourceTree = "<group>"; };
+		D7466EFD25F3992000DAAE51 /* UIAlertController+RSSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertController+RSSAlertController.h"; sourceTree = "<group>"; };
 		D7489EF725E42E5600E354A4 /* SelectedButtonsStateModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectedButtonsStateModel.h; sourceTree = "<group>"; };
 		D7489EF825E42E5600E354A4 /* SelectedButtonsStateModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectedButtonsStateModel.m; sourceTree = "<group>"; };
 		D756469525700DB20074F03F /* NSXMLParser+SetDataWithDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSXMLParser+SetDataWithDelegate.h"; sourceTree = "<group>"; };
@@ -151,6 +174,7 @@
 			children = (
 				D73C3C0D25643D060097261C /* Task */,
 				D723D9B22563CFAF003DF465 /* Support */,
+				D7466EC125F394FF00DAAE51 /* HtmlParser */,
 				D70D1261256665B700DE4ECF /* XMLParser */,
 				D70D125A25665CD800DE4ECF /* Services */,
 				D723D9BD2563D2E5003DF465 /* Models */,
@@ -177,6 +201,7 @@
 		D723D9B42563CFED003DF465 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				D7466EDF25F396E300DAAE51 /* RSSViewController */,
 				D722DAD7256BEEC6007FC3C3 /* FeedsTableViewVC */,
 				D78243B625DAEECD00D3CED3 /* WebViewController */,
 			);
@@ -187,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				D722DAD3256BEE8A007FC3C3 /* FeedTableViewCell */,
+				D7466EE725F3987F00DAAE51 /* RSSCell */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -206,6 +232,70 @@
 				D789E13125640A2100AAE598 /* RSSReader.rtf */,
 			);
 			path = Task;
+			sourceTree = "<group>";
+		};
+		D7466EC125F394FF00DAAE51 /* HtmlParser */ = {
+			isa = PBXGroup;
+			children = (
+				D7466EC325F3950000DAAE51 /* HtmlParser.h */,
+				D7466EC225F3950000DAAE51 /* HtmlParser.m */,
+			);
+			path = HtmlParser;
+			sourceTree = "<group>";
+		};
+		D7466EDF25F396E300DAAE51 /* RSSViewController */ = {
+			isa = PBXGroup;
+			children = (
+				D7466EDB25F396D500DAAE51 /* RSSViewController.h */,
+				D7466EDC25F396D500DAAE51 /* RSSViewController.m */,
+			);
+			path = RSSViewController;
+			sourceTree = "<group>";
+		};
+		D7466EE725F3987F00DAAE51 /* RSSCell */ = {
+			isa = PBXGroup;
+			children = (
+				D7466EE125F3987A00DAAE51 /* RSSCell.h */,
+				D7466EE325F3987A00DAAE51 /* RSSCell.m */,
+				D7466EE225F3987A00DAAE51 /* RSSCell.xib */,
+			);
+			path = RSSCell;
+			sourceTree = "<group>";
+		};
+		D7466EED25F398B400DAAE51 /* URLFormatter */ = {
+			isa = PBXGroup;
+			children = (
+				D7466EE925F398A900DAAE51 /* NSURL+URLFormatter.h */,
+				D7466EEA25F398A900DAAE51 /* NSURL+URLFormatter.m */,
+			);
+			path = URLFormatter;
+			sourceTree = "<group>";
+		};
+		D7466EF325F398D700DAAE51 /* URLStringValidator */ = {
+			isa = PBXGroup;
+			children = (
+				D7466EEF25F398D100DAAE51 /* NSString+URLStringValidator.h */,
+				D7466EF025F398D100DAAE51 /* NSString+URLStringValidator.m */,
+			);
+			path = URLStringValidator;
+			sourceTree = "<group>";
+		};
+		D7466EFA25F398FE00DAAE51 /* ErrorAlertController */ = {
+			isa = PBXGroup;
+			children = (
+				D7466EF625F398F800DAAE51 /* UIAlertController+ErrorAlertController.h */,
+				D7466EF725F398F800DAAE51 /* UIAlertController+ErrorAlertController.m */,
+			);
+			path = ErrorAlertController;
+			sourceTree = "<group>";
+		};
+		D7466F0025F3992900DAAE51 /* RSSAlertController */ = {
+			isa = PBXGroup;
+			children = (
+				D7466EFD25F3992000DAAE51 /* UIAlertController+RSSAlertController.h */,
+				D7466EFC25F3992000DAAE51 /* UIAlertController+RSSAlertController.m */,
+			);
+			path = RSSAlertController;
 			sourceTree = "<group>";
 		};
 		D7489EFB25E42E6100E354A4 /* SelectedButtonsModel */ = {
@@ -238,7 +328,11 @@
 		D75B30FC256D0EB5009910B2 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				D7466EED25F398B400DAAE51 /* URLFormatter */,
+				D7466EF325F398D700DAAE51 /* URLStringValidator */,
 				D78243BC25DAF06100D3CED3 /* NSStringSubstring */,
+				D7466EFA25F398FE00DAAE51 /* ErrorAlertController */,
+				D7466F0025F3992900DAAE51 /* RSSAlertController */,
 				D76D761A257A5EBD002E355F /* UIAlertController */,
 				D756469B257010500074F03F /* NSXMLParser */,
 				D756469225700B5D0074F03F /* NSDateFormatter */,
@@ -331,6 +425,7 @@
 			files = (
 				D723D96A2562E304003DF465 /* LaunchScreen.storyboard in Resources */,
 				D73C3C8C25658A9A0097261C /* FeedTableViewCell.xib in Resources */,
+				D7466EE425F3987B00DAAE51 /* RSSCell.xib in Resources */,
 				D789E13225640A2100AAE598 /* RSSReader.rtf in Resources */,
 				D723D9672562E304003DF465 /* Assets.xcassets in Resources */,
 				D76B96BA25B9DA130041E109 /* Localized.strings in Resources */,
@@ -345,16 +440,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				D73C3C8B25658A9A0097261C /* FeedTableViewCell.m in Sources */,
+				D7466EDD25F396D500DAAE51 /* RSSViewController.m in Sources */,
+				D7466EE525F3987B00DAAE51 /* RSSCell.m in Sources */,
 				D75B3110256D1A5B009910B2 /* NSString+DateFormatter.m in Sources */,
 				D78243B425DAEEC200D3CED3 /* WebViewController.m in Sources */,
+				D7466EEB25F398A900DAAE51 /* NSURL+URLFormatter.m in Sources */,
 				D723D9AF2563C890003DF465 /* FeedListVC.m in Sources */,
+				D7466EFE25F3992000DAAE51 /* UIAlertController+RSSAlertController.m in Sources */,
 				D7489EF925E42E5600E354A4 /* SelectedButtonsStateModel.m in Sources */,
 				D76D7618257A5EB7002E355F /* UIAlertController+CreateAlertController.m in Sources */,
 				D78243BA25DAF05900D3CED3 /* NSString+GetSubstringFromDescription.m in Sources */,
+				D7466EF825F398F800DAAE51 /* UIAlertController+ErrorAlertController.m in Sources */,
 				D723D9B92563D2DC003DF465 /* Feeds.m in Sources */,
+				D7466F0325F3999900DAAE51 /* HtmlParser.m in Sources */,
 				D70D1266256666B700DE4ECF /* RSXmlParser.m in Sources */,
 				D723D95C2562E2FE003DF465 /* AppDelegate.m in Sources */,
 				D723D96D2562E304003DF465 /* main.m in Sources */,
+				D7466EF125F398D100DAAE51 /* NSString+URLStringValidator.m in Sources */,
 				D756469825700E020074F03F /* NSXMLParser+SetDataWithDelegate.m in Sources */,
 				D70D125725665CBC00DE4ECF /* FeedService.m in Sources */,
 			);

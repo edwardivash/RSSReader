@@ -9,4 +9,6 @@
 
 @interface FeedListVC : UIViewController
 
+@property (nonatomic, copy) NSString *stringWithChannelUrl;
+
 @end

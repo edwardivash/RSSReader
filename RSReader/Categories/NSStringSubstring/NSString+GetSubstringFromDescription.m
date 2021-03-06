@@ -13,7 +13,8 @@
     NSRange r1 = [descriptiongString rangeOfString:@"/>"];
     NSRange r2 = [descriptiongString rangeOfString:@"<b"];
     NSRange rSub = NSMakeRange(r1.location + r1.length, r2.location - r1.location - r1.length);
-    return [descriptiongString substringWithRange:rSub];
+    NSString *dataStr = [descriptiongString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return [dataStr substringWithRange:rSub];
 }
 
 @end
