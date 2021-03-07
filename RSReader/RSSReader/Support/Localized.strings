@@ -9,3 +9,13 @@
 "Unable to load data." = "Unable to load data.";
 "Check your internet connection." = "Check your internet connection.";
 "Ok" = "Ok";
+"Cancel" = "Cancel";
+"Save" = "Save";
+"Wrong URL format." = "Wrong URL format.";
+"Example: https://news.tut.by \nor https://tut.by/rss" = "Example: https://news.tut.by \nor https://tut.by/rss";
+"This channel already exists." = "This channel already exists.";
+"Enter a new URL for a channel." = "Enter a new URL for a channel.";
+"It is not possible to download data from this RSS feed channel." = "It is not possible to download data from this RSS feed channel.";
+"Please edit url." = "Please edit url.";
+"Add RSS Channel" = "Add RSS Channel";
+"Please enter your URL" = "Please enter your URL";

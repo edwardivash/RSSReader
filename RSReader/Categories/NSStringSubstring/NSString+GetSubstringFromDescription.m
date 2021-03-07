@@ -10,11 +10,13 @@
 @implementation NSString (GetSubstringFromDescription)
 
 + (NSString *)getDescriptionsSubstringFromRSSDescription:(NSString *)descriptiongString {
-    NSRange r1 = [descriptiongString rangeOfString:@"/>"];
-    NSRange r2 = [descriptiongString rangeOfString:@"<b"];
-    NSRange rSub = NSMakeRange(r1.location + r1.length, r2.location - r1.location - r1.length);
-    NSString *dataStr = [descriptiongString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    return [dataStr substringWithRange:rSub];
+    NSRegularExpression *regex = [NSRegularExpression
+                                  regularExpressionWithPattern:@"\\>[аА-яЯ0-9aA-zZ].*(\\. |\\.\\<)"
+                                  options:NSRegularExpressionCaseInsensitive
+                                  error:nil];
+    NSString *result = [descriptiongString substringWithRange:[regex firstMatchInString:descriptiongString options:0 range:NSMakeRange(0, [descriptiongString length])].range];
+    NSString *finalString = [[[[result stringByReplacingOccurrencesOfString:@"<" withString:@""] stringByReplacingOccurrencesOfString:@">" withString:@""] stringByReplacingOccurrencesOfString:@"a href=" withString:@""] stringByReplacingOccurrencesOfString:@"/a" withString:@""];
+    return [result containsString:@">"] || [result containsString:@"<"] ? finalString : descriptiongString;
 }
 
 @end

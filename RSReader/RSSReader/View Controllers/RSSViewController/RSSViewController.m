@@ -17,6 +17,9 @@
 NSString *const kNavTitle = @"RSSReader";
 NSString *const kRSSCellId = @"RSSCellId";
 NSString *const kRSSCellName = @"RSSCell";
+NSString *const kSavedFile = @"channels.txt";
+NSString *const kSavedFileName = @"channels";
+NSString *const kSavedFileType = @"txt";
 
 @interface RSSViewController () <UITableViewDelegate, UITableViewDataSource, NSXMLParserDelegate>
 
@@ -35,6 +38,7 @@ NSString *const kRSSCellName = @"RSSCell";
     self.navigationItem.rightBarButtonItem = self.channelButtonItem;
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
     
+    [self setLayoutForTableView];
     [self retrieveDataFromDocFile];
     [self.rssTableView reloadData];
     NSLog(@"%@", NSHomeDirectory());
@@ -49,14 +53,6 @@ NSString *const kRSSCellName = @"RSSCell";
         _rssTableView.delegate = self;
         _rssTableView.dataSource = self;
         [_rssTableView registerNib:[UINib nibWithNibName:kRSSCellName bundle:nil] forCellReuseIdentifier:kRSSCellId];
-        [self.view addSubview:_rssTableView];
-        
-        [NSLayoutConstraint activateConstraints:@[
-            [_rssTableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-            [_rssTableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-            [_rssTableView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-            [_rssTableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
-        ]];
     }
     return _rssTableView;
 }
@@ -84,7 +80,6 @@ NSString *const kRSSCellName = @"RSSCell";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     return self.inputChannelUrls.count;
 }
 
@@ -118,17 +113,14 @@ NSString *const kRSSCellName = @"RSSCell";
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
-    if (editing && !self.rssTableView.isEditing) {
-        [self.rssTableView setEditing:YES animated:YES];
-    } else {
-        [self.rssTableView setEditing:NO animated:NO];
-    }
+    BOOL isEditing = editing && !self.rssTableView.isEditing;
+    [self.rssTableView setEditing:isEditing animated:isEditing];
 }
 
 #pragma mark - Private Methods
 
 - (void)showRSSAlertController {
-    [self presentViewController:[UIAlertController addWebSite:self] animated:YES completion:nil];
+    [self presentViewController:[UIAlertController alertToAddInputRSSChannel:self] animated:YES completion:nil];
 }
 
 #pragma mark - Data management in App Documents
@@ -137,11 +129,11 @@ NSString *const kRSSCellName = @"RSSCell";
 
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"channels.txt"];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:kSavedFile];
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
     if (![fileManager fileExistsAtPath: path]) {
-        path = [documentsDirectory stringByAppendingPathComponent: [NSString stringWithFormat:@"channels.txt"] ];
+        path = [documentsDirectory stringByAppendingPathComponent: [NSString stringWithFormat:kSavedFile] ];
     }
 
     if ([fileManager fileExistsAtPath: path]) {
@@ -158,7 +150,7 @@ NSString *const kRSSCellName = @"RSSCell";
 
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"channels.txt"];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:kSavedFile];
     NSMutableArray *mutArray = [NSMutableArray arrayWithContentsOfFile:(NSString *)path];
     [mutArray removeObjectAtIndex:indexPath.row];
     [mutArray writeToFile:path atomically:YES];
@@ -168,16 +160,29 @@ NSString *const kRSSCellName = @"RSSCell";
 
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"channels.txt"];
+    NSString *path = [documentsDirectory stringByAppendingPathComponent:kSavedFile];
 
     if (![[NSFileManager defaultManager] fileExistsAtPath:path])
     {
-        path = [[NSBundle mainBundle] pathForResource:@"channels" ofType:@"txt"];
+        path = [[NSBundle mainBundle] pathForResource:kSavedFileName ofType:kSavedFileType];
     }
 
     NSMutableArray *mutArray = [[NSMutableArray alloc] initWithContentsOfFile:path];
     self.inputChannelUrls = mutArray;
     [mutArray release];
+}
+
+#pragma mark - Layout
+
+- (void)setLayoutForTableView {
+    [self.view addSubview:self.rssTableView];
+    
+    [NSLayoutConstraint activateConstraints:@[
+        [self.rssTableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.rssTableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [self.rssTableView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        [self.rssTableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]
+    ]];
 }
 
 

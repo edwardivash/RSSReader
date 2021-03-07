@@ -11,6 +11,6 @@
 
 @interface UIAlertController (RSSAlertController)
 
-+ (UIAlertController *)addWebSite:(RSSViewController *)rssVC;
++ (UIAlertController *)alertToAddInputRSSChannel:(RSSViewController *)rssVC;
 
 @end

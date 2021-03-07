@@ -12,21 +12,26 @@
 #import "FeedService.h"
 #import "HtmlParser.h"
 
+NSString *const kAlertAddWebSiteTitle = @"Add RSS Channel";
+NSString *const kTextFieldPlaceholder = @"Please enter your URL";
+NSString *const kCancel = @"Cancel";
+NSString *const kSave = @"Save";
+
 @implementation UIAlertController (RSSAlertController)
 
 // Made in Mexico
-+ (UIAlertController *)addWebSite:(RSSViewController *)rssVC {
++ (UIAlertController *)alertToAddInputRSSChannel:(RSSViewController *)rssVC {
     
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Add RSS Channel" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(kAlertAddWebSiteTitle, @"") message:@"" preferredStyle:UIAlertControllerStyleAlert];
     __block UITextField *textFieldURL;
     
     [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textFieldURL = textField;
-        textFieldURL.placeholder = @"Please enter your URL";
+        textFieldURL.placeholder = NSLocalizedString(kTextFieldPlaceholder, @"");
     }];
     
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
-    UIAlertAction *save = [UIAlertAction actionWithTitle:@"Save" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(kCancel, @"") style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *save = [UIAlertAction actionWithTitle:NSLocalizedString(kSave, @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         if (![NSString validateUrl:textFieldURL.text]) {
             [rssVC presentViewController:[UIAlertController showErrorAlertUrlFormat] animated:YES completion:nil];
             NSLog(@"Failed validation");
