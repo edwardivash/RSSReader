@@ -12,6 +12,8 @@
 #import "Feeds.h"
 #import "UIAlertController+CreateAlertController.h"
 #import "WebViewController.h"
+#import "UIAlertController+ErrorAlertController.h"
+#import "NSURL+URLFormatter.h"
 
 NSString *const kNavigationBarTitle = @"RSSReader";
 NSString *const kRefreshButtonName = @"refreshIcon";
@@ -96,7 +98,8 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 
 - (FeedService *)feedService {
     if (!_feedService) {
-        _feedService = [[FeedService alloc] initWithParser: self.parser];
+        _feedService = [[FeedService alloc] initWithParser: [self.parser retain]];
+        _feedService.urlString = self.stringWithChannelUrl;
     }
     return _feedService;
 }
@@ -133,6 +136,13 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
     return _parser;
 }
 
+- (NSString *)stringWithChannelUrl {
+    if (!_stringWithChannelUrl) {
+        _stringWithChannelUrl = [[NSString alloc] init];
+    }
+    return _stringWithChannelUrl;
+}
+
 #pragma mark - DataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -163,6 +173,7 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *urlString = [NSString stringWithString:self.dataSource[indexPath.row].feedsLink];
     NSString *dataStr = [urlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
     WebViewController *webVC = [[WebViewController alloc]init];
     [webVC.stringWithURL addObject:dataStr];
     [self.navigationController pushViewController:webVC animated:YES];
@@ -210,6 +221,7 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
     [_feedService release];
     [_parser release];
     [_selectedButtons release];
+    [_stringWithChannelUrl release];
     [super dealloc];
 }
 

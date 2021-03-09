@@ -7,8 +7,7 @@
 
 #import "FeedService.h"
 #import "RSXmlParser.h"
-
-NSString *const kUrl = @"https://news.tut.by/rss/index.rss";
+#import "RSSViewController.h"
 
 @interface FeedService ()
 
@@ -26,25 +25,32 @@ NSString *const kUrl = @"https://news.tut.by/rss/index.rss";
     return self;
 }
 
+- (NSString *)urlString {
+    if (!_urlString) {
+        _urlString = [[NSMutableString alloc] init];
+    }
+    return _urlString;
+}
+
 - (void)loadFeeds:(void (^)(NSArray<Feeds *> *, NSError *))completion {
-    NSURL *url = [NSURL URLWithString:kUrl];
+    NSURL *url = [NSURL URLWithString:self.urlString];
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url
                                                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             completion(nil,error);
-            NSLog(@"Eror - %@",error);
+            NSLog(@"Error - %@",error);
             return;
         }
 
         [self.parser parseFeeds:data completion:completion];
     }];
-    
     [dataTask resume];
 }
 
 - (void)dealloc
 {
+    [_urlString release];
     [_parser release];
     [super dealloc];
 }

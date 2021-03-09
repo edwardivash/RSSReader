@@ -12,6 +12,7 @@
 
 @interface FeedService : NSObject
 
+@property (nonatomic, copy) NSString *urlString;
 - (void)loadFeeds:(void (^)(NSArray<Feeds *> *, NSError *))completion;
 - (instancetype)initWithParser:(id<RSParserProtocol>)parser;
 

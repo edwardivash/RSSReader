@@ -98,14 +98,14 @@ NSString *const kSafariButton = @"safariButton";
 
 - (UIBarButtonItem *)barButtonsSeparater {
     if (!_barButtonsSeparater) {
-        _barButtonsSeparater = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+        _barButtonsSeparater = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     }
     return _barButtonsSeparater;
 }
 
 - (NSMutableArray *)stringWithURL {
     if (!_stringWithURL) {
-        _stringWithURL = [[NSMutableArray alloc]init];
+        _stringWithURL = [[NSMutableArray alloc] init];
     }
     return _stringWithURL;
 }
