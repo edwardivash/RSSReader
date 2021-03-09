@@ -16,13 +16,13 @@ NSString *const kSafariButton = @"safariButton";
 
 @interface WebViewController () <WKUIDelegate>
 
-@property (nonatomic, retain) WKWebView *webView;
-@property (nonatomic, retain) UIBarButtonItem *backButton;
-@property (nonatomic, retain) UIBarButtonItem *forwardButton;
-@property (nonatomic, retain) UIBarButtonItem *refreshButton;
-@property (nonatomic, retain) UIBarButtonItem *stopButton;
-@property (nonatomic, retain) UIBarButtonItem *safariButton;
-@property (nonatomic, retain) UIBarButtonItem *barButtonsSeparater;
+@property (nonatomic, strong) WKWebView *webView;
+@property (nonatomic, strong) UIBarButtonItem *backButton;
+@property (nonatomic, strong) UIBarButtonItem *forwardButton;
+@property (nonatomic, strong) UIBarButtonItem *refreshButton;
+@property (nonatomic, strong) UIBarButtonItem *stopButton;
+@property (nonatomic, strong) UIBarButtonItem *safariButton;
+@property (nonatomic, strong) UIBarButtonItem *barButtonsSeparater;
 
 @end
 
@@ -129,20 +129,6 @@ NSString *const kSafariButton = @"safariButton";
             [self.webView.topAnchor constraintEqualToAnchor:self.view. safeAreaLayoutGuide.topAnchor],
             [self.webView.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor]
         ]];
-}
-
-
-- (void)dealloc
-{
-    [_stringWithURL release];
-    [_webView release];
-    [_backButton release];
-    [_forwardButton release];
-    [_stopButton release];
-    [_refreshButton release];
-    [_safariButton release];
-    [_barButtonsSeparater release];
-    [super dealloc];
 }
 
 @end

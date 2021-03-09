@@ -14,12 +14,12 @@
 
 @property (nonatomic, copy) void (^completion)(NSArray<Feeds *> *, NSError *);
 
-@property (nonatomic, retain) NSXMLParser *parser;
+@property (nonatomic, strong) NSXMLParser *parser;
 
-@property (nonatomic, retain) NSMutableDictionary *feedDictionary;
-@property (nonatomic, retain) NSMutableDictionary *parsingDictionary;
-@property (nonatomic, retain) NSMutableString *parsingString;
-@property (nonatomic, retain) NSMutableArray *feeds;
+@property (nonatomic, strong) NSMutableDictionary *feedDictionary;
+@property (nonatomic, strong) NSMutableDictionary *parsingDictionary;
+@property (nonatomic, strong) NSMutableString *parsingString;
+@property (nonatomic, strong) NSMutableArray *feeds;
 
 @end
 
@@ -37,7 +37,6 @@
     if (self.completion) {
         self.completion(nil, parseError);
     }
-    [self resetParserState];
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser {
@@ -68,7 +67,6 @@ didStartElement:(NSString *)elementName
     if ([elementName isEqualToString:kFeedItem]) {
         Feeds *feedObj = [[Feeds alloc]initWithDictionary:self.feedDictionary];
         [self.feeds addObject:feedObj];
-        [feedObj release];
     } else if ([elementName isEqualToString:kFeedsTitle]) {
         self.feedDictionary[elementName] = self.parsingString;
     } else if ([elementName isEqualToString:kFeedsLink]) {
@@ -88,31 +86,6 @@ didStartElement:(NSString *)elementName
     if (self.completion) {
         self.completion(self.feeds, nil);
     }
-    [self resetParserState];
-}
-
-#pragma mark - Private methods
-
-- (void)resetParserState {
-    [_completion release];
-    _completion = nil;
-    [_feeds release];
-    _feeds = nil;
-    [_parsingDictionary release];
-    _parsingDictionary = nil;
-    [_parsingString release];
-    _parsingString = nil;
-}
-
-- (void)dealloc
-{
-    [_completion release];
-    [_feedDictionary release];
-    [_parsingString release];
-    [_parsingDictionary release];
-    [_feeds release];
-    [_parser release];
-    [super dealloc];
 }
 
 @end

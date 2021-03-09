@@ -27,14 +27,4 @@ NSString *const kFeedsPubDate = @"pubDate";
     return self;
 }
 
-- (void)dealloc
-{
-    [_feedsItem release];
-    [_feedsTitle release];
-    [_feedsPubDate release];
-    [_feedsDescription release];
-    [_feedsLink release];
-    [super dealloc];
-}
-
 @end

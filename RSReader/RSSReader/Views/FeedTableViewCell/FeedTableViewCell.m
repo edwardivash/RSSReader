@@ -16,13 +16,13 @@ CGFloat kAnimationDuration = 0.7;
 
 @interface FeedTableViewCell ()
 
-@property (retain, nonatomic) IBOutlet UIButton *descriptionButton;
-@property (retain, nonatomic) IBOutlet UILabel *feedLabel;
-@property (retain, nonatomic) IBOutlet UILabel *pubDateLabel;
-@property (retain, nonatomic) IBOutlet UITextView *descTextView;
-@property (retain, nonatomic) NSLayoutConstraint *heightTextViewConstraint;
+@property (strong, nonatomic) IBOutlet UIButton *descriptionButton;
+@property (strong, nonatomic) IBOutlet UILabel *feedLabel;
+@property (strong, nonatomic) IBOutlet UILabel *pubDateLabel;
+@property (strong, nonatomic) IBOutlet UITextView *descTextView;
+@property (strong, nonatomic) NSLayoutConstraint *heightTextViewConstraint;
 @property (copy, nonatomic) void(^didTapHandler)(void);
-@property (retain, nonatomic) SelectedButtonsStateModel *selectedButtonsModel;
+@property (strong, nonatomic) SelectedButtonsStateModel *selectedButtonsModel;
 
 @end
 
@@ -95,17 +95,6 @@ CGFloat kAnimationDuration = 0.7;
     self.heightTextViewConstraint = [self.descTextView.heightAnchor constraintEqualToConstant:0];
     self.heightTextViewConstraint.priority = kHeightTextViewConstraintPripority;
     self.heightTextViewConstraint.active = YES;
-}
-
-- (void)dealloc {
-    [_feedLabel release];
-    [_pubDateLabel release];
-    [_descTextView release];
-    [_descriptionButton release];
-    [_didTapHandler release];
-    [_heightTextViewConstraint release];
-    [_selectedButtonsModel release];
-    [super dealloc];
 }
 
 @end

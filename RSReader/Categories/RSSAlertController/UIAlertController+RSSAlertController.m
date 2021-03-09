@@ -9,6 +9,7 @@
 #import "RSSViewController.h"
 #import "NSString+URLStringValidator.h"
 #import "UIAlertController+ErrorAlertController.h"
+#import "UIAlertController+CreateAlertController.h"
 #import "FeedService.h"
 #import "HtmlParser.h"
 
@@ -46,6 +47,9 @@ NSString *const kSave = @"Save";
             }
             NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:textFieldURL.text]];
             NSArray *channels = [HtmlParser parseHtmlFromData:data];
+            if (channels.count == 0) {
+                [rssVC presentViewController:[UIAlertController createAlertControllerWithAction] animated:YES completion:nil];
+            }
             for (NSString *strChannel in channels) {
                 if (![rssVC.inputChannelUrls containsObject:strChannel]) {
                     [rssVC saveDataInDocFile:strChannel];

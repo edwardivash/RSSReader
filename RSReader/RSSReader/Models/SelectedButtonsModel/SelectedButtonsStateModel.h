@@ -9,6 +9,6 @@
 
 @interface SelectedButtonsStateModel : NSObject
 
-@property (nonatomic, retain) NSMutableIndexSet* selectedButtons;
+@property (nonatomic, strong) NSMutableIndexSet* selectedButtons;
 
 @end
