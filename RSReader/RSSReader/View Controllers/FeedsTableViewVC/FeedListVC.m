@@ -13,7 +13,7 @@
 #import "UIAlertController+CreateAlertController.h"
 #import "WebViewController.h"
 #import "UIAlertController+ErrorAlertController.h"
-#import "NSURL+URLFormatter.h"
+#import "NSURL+URLFromStringFormatter.h"
 
 NSString *const kNavigationBarTitle = @"RSSReader";
 NSString *const kRefreshButtonName = @"refreshIcon";
@@ -172,10 +172,10 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *urlString = [NSString stringWithString:self.dataSource[indexPath.row].feedsLink];
-    NSString *dataStr = [urlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *formattedString = [NSString formatStringFromURLString:urlString];
     
     WebViewController *webVC = [[WebViewController alloc]init];
-    [webVC.stringWithURL addObject:dataStr];
+    [webVC.stringWithURL addObject:formattedString];
     [self.navigationController pushViewController:webVC animated:YES];
     [self.feedTableView deselectRowAtIndexPath:[self.feedTableView indexPathForSelectedRow] animated:YES];
 }

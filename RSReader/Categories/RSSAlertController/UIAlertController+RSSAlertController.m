@@ -29,6 +29,7 @@ NSString *const kSave = @"Save";
     [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textFieldURL = textField;
         textFieldURL.placeholder = NSLocalizedString(kTextFieldPlaceholder, @"");
+        textFieldURL.text = @"https://";
     }];
     
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(kCancel, @"") style:UIAlertActionStyleCancel handler:nil];

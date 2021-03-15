@@ -16,7 +16,7 @@ NSString *const kSafariButton = @"safariButton";
 
 @interface WebViewController () <WKUIDelegate>
 
-@property (nonatomic, strong) WKWebView *webView;
+@property (nonatomic, strong) WKWebView *inbuiltBrowserWebView;
 @property (nonatomic, strong) UIBarButtonItem *backButton;
 @property (nonatomic, strong) UIBarButtonItem *forwardButton;
 @property (nonatomic, strong) UIBarButtonItem *refreshButton;
@@ -41,7 +41,7 @@ NSString *const kSafariButton = @"safariButton";
                           self.stopButton,self.barButtonsSeparater,
                           self.safariButton];
     
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[self.stringWithURL objectAtIndex:0]]]];
+    [self.inbuiltBrowserWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[self.stringWithURL objectAtIndex:0]]]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -51,40 +51,40 @@ NSString *const kSafariButton = @"safariButton";
 
 #pragma mark - Getters
 
-- (WKWebView *)webView {
-    if (!_webView) {
-        _webView = [WKWebView new];
-        _webView.backgroundColor = [UIColor whiteColor];
-        _webView.translatesAutoresizingMaskIntoConstraints = NO;
-        _webView.allowsBackForwardNavigationGestures = YES;
+- (WKWebView *)inbuiltBrowserWebView {
+    if (!_inbuiltBrowserWebView) {
+        _inbuiltBrowserWebView = [WKWebView new];
+        _inbuiltBrowserWebView.backgroundColor = [UIColor whiteColor];
+        _inbuiltBrowserWebView.translatesAutoresizingMaskIntoConstraints = NO;
+        _inbuiltBrowserWebView.allowsBackForwardNavigationGestures = YES;
     }
-    return _webView;
+    return _inbuiltBrowserWebView;
 }
 
 - (UIBarButtonItem *)backButton {
     if (!_backButton) {
-        _backButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:kBackButton] style:UIBarButtonItemStylePlain target:self.webView action:@selector(goBack)];
+        _backButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:kBackButton] style:UIBarButtonItemStylePlain target:self.inbuiltBrowserWebView action:@selector(goBack)];
     }
     return _backButton;
 }
 
 - (UIBarButtonItem *)forwardButton {
     if (!_forwardButton) {
-        _forwardButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:kForwardButton] style:UIBarButtonItemStylePlain target:self.webView action:@selector(goForward)];
+        _forwardButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:kForwardButton] style:UIBarButtonItemStylePlain target:self.inbuiltBrowserWebView action:@selector(goForward)];
     }
     return _forwardButton;
 }
 
 - (UIBarButtonItem *)refreshButton {
     if (!_refreshButton) {
-        _refreshButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:kRefreshButton] style:UIBarButtonItemStylePlain target:self.webView action:@selector(reload)];
+        _refreshButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:kRefreshButton] style:UIBarButtonItemStylePlain target:self.inbuiltBrowserWebView action:@selector(reload)];
     }
     return _refreshButton;
 }
 
 - (UIBarButtonItem *)stopButton {
     if (!_stopButton) {
-        _stopButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:kStopButton] style:UIBarButtonItemStylePlain target:self.webView action:@selector(stopLoading)];
+        _stopButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:kStopButton] style:UIBarButtonItemStylePlain target:self.inbuiltBrowserWebView action:@selector(stopLoading)];
     }
     return _stopButton;
 }
@@ -121,13 +121,13 @@ NSString *const kSafariButton = @"safariButton";
 #pragma mark - WebView customize
 
 - (void)setupWebViewLayout {
-        [self.view addSubview:self.webView];
+        [self.view addSubview:self.inbuiltBrowserWebView];
     
         [NSLayoutConstraint activateConstraints:@[
-            [self.webView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-            [self.webView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-            [self.webView.topAnchor constraintEqualToAnchor:self.view. safeAreaLayoutGuide.topAnchor],
-            [self.webView.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor]
+            [self.inbuiltBrowserWebView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+            [self.inbuiltBrowserWebView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+            [self.inbuiltBrowserWebView.topAnchor constraintEqualToAnchor:self.view. safeAreaLayoutGuide.topAnchor],
+            [self.inbuiltBrowserWebView.bottomAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.bottomAnchor]
         ]];
 }
 

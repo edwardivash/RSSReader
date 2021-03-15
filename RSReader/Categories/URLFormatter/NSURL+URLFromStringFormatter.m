@@ -5,11 +5,11 @@
 //  Created by Eduard Ivash on 15.01.21.
 //
 
-#import "NSURL+URLFormatter.h"
+#import "NSURL+URLFromStringFormatter.h"
 
-@implementation NSURL (URLFormatter)
+@implementation NSString (URLFromStringFormatter)
 
-+ (NSURL *)urlFormatter:(NSString *)urlString {
++ (NSString *)formatStringFromURLString:(NSString *)urlString {
     NSMutableArray *array = [NSMutableArray array];
     NSMutableString *resultString = [NSMutableString string];
     for (int i = 0; i < [urlString length]; i++) {
@@ -22,7 +22,7 @@
             }
             [resultString appendString:array[j]];
         }
-    return [NSURL URLWithString:resultString];
+    return resultString;
 }
 
 @end
