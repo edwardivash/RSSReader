@@ -7,8 +7,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSURL (URLFormatter)
+@interface NSString (URLFromStringFormatter)
 
-+ (NSURL *)urlFormatter:(NSString *)urlString;
++ (NSString *)formatStringFromURLString:(NSString *)urlString;
 
 @end

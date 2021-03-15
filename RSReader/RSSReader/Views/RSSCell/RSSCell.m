@@ -11,8 +11,8 @@ NSString *const kRssImageName = @"RSS_Image";
 
 @interface RSSCell ()
 
-@property (retain, nonatomic) IBOutlet UIImageView *rssCellImage;
-@property (retain, nonatomic) IBOutlet UILabel *rssCellTitle;
+@property (strong, nonatomic) IBOutlet UIImageView *rssCellImage;
+@property (strong, nonatomic) IBOutlet UILabel *rssCellTitle;
 
 @end
 
@@ -23,9 +23,4 @@ NSString *const kRssImageName = @"RSS_Image";
     self.rssCellImage.image = [UIImage imageNamed:kRssImageName];
 }
 
-- (void)dealloc {
-    [_rssCellImage release];
-    [_rssCellTitle release];
-    [super dealloc];
-}
 @end

@@ -9,6 +9,6 @@
 
 @interface WebViewController : UIViewController
 
-@property (nonatomic, retain) NSMutableArray *stringWithURL;
+@property (nonatomic, strong) NSMutableArray *stringWithURL;
 
 @end

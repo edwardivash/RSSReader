@@ -13,7 +13,7 @@
 #import "UIAlertController+CreateAlertController.h"
 #import "WebViewController.h"
 #import "UIAlertController+ErrorAlertController.h"
-#import "NSURL+URLFormatter.h"
+#import "NSURL+URLFromStringFormatter.h"
 
 NSString *const kNavigationBarTitle = @"RSSReader";
 NSString *const kRefreshButtonName = @"refreshIcon";
@@ -22,14 +22,14 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 
 @interface FeedListVC () <UITableViewDelegate, UITableViewDataSource>
 
-@property (retain, nonatomic) UITableView *feedTableView;
-@property (retain, nonatomic) UIActivityIndicatorView *activityIndicator;
-@property (retain, nonatomic) UIBarButtonItem *buttonWithActivityIndicator;
-@property (retain, nonatomic) UIBarButtonItem *refreshButton;
-@property (retain, nonatomic) FeedService *feedService;
-@property (retain, nonatomic) RSXmlParser *parser;
-@property (retain, nonatomic) NSArray<Feeds*> *dataSource;
-@property (retain, nonatomic) NSMutableIndexSet *selectedButtons;
+@property (strong, nonatomic) UITableView *feedTableView;
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic) UIBarButtonItem *buttonWithActivityIndicator;
+@property (strong, nonatomic) UIBarButtonItem *refreshButton;
+@property (strong, nonatomic) FeedService *feedService;
+@property (strong, nonatomic) RSXmlParser *parser;
+@property (strong, nonatomic) NSArray<Feeds*> *dataSource;
+@property (strong, nonatomic) NSMutableIndexSet *selectedButtons;
 
 @end
 
@@ -98,7 +98,7 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 
 - (FeedService *)feedService {
     if (!_feedService) {
-        _feedService = [[FeedService alloc] initWithParser: [self.parser retain]];
+        _feedService = [[FeedService alloc] initWithParser: self.parser];
         _feedService.urlString = self.stringWithChannelUrl;
     }
     return _feedService;
@@ -172,13 +172,12 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *urlString = [NSString stringWithString:self.dataSource[indexPath.row].feedsLink];
-    NSString *dataStr = [urlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *formattedString = [NSString formatStringFromURLString:urlString];
     
     WebViewController *webVC = [[WebViewController alloc]init];
-    [webVC.stringWithURL addObject:dataStr];
+    [webVC.stringWithURL addObject:formattedString];
     [self.navigationController pushViewController:webVC animated:YES];
     [self.feedTableView deselectRowAtIndexPath:[self.feedTableView indexPathForSelectedRow] animated:YES];
-    [webVC release];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -211,18 +210,16 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
     [NSThread detachNewThreadSelector:@selector(feedsLoader) toTarget:self withObject:nil];
 }
 
+#pragma mark - Shake Gesture
 
-- (void)dealloc {
-    [_feedTableView release];
-    [_activityIndicator release];
-    [_buttonWithActivityIndicator release];
-    [_refreshButton release];
-    [_dataSource release];
-    [_feedService release];
-    [_parser release];
-    [_selectedButtons release];
-    [_stringWithChannelUrl release];
-    [super dealloc];
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    if (event.subtype == UIEventSubtypeMotionShake) {
+        [self feedsLoader];
+    }
 }
 
 @end

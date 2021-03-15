@@ -16,10 +16,4 @@
     return _selectedButtons;
 }
 
-- (void)dealloc
-{
-    [_selectedButtons release];
-    [super dealloc];
-}
-
 @end

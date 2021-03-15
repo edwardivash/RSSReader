@@ -48,11 +48,4 @@
     [dataTask resume];
 }
 
-- (void)dealloc
-{
-    [_urlString release];
-    [_parser release];
-    [super dealloc];
-}
-
 @end
