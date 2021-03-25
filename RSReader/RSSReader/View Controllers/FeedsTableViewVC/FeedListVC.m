@@ -14,6 +14,7 @@
 #import "WebViewController.h"
 #import "UIAlertController+ErrorAlertController.h"
 #import "NSURL+URLFromStringFormatter.h"
+#import "FeedServiceRuntime.h"
 
 NSString *const kNavigationBarTitle = @"RSSReader";
 NSString *const kRefreshButtonName = @"refreshIcon";
@@ -26,7 +27,7 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) UIBarButtonItem *buttonWithActivityIndicator;
 @property (strong, nonatomic) UIBarButtonItem *refreshButton;
-@property (strong, nonatomic) FeedService *feedService;
+@property (strong, nonatomic) id feedService;
 @property (strong, nonatomic) RSXmlParser *parser;
 @property (strong, nonatomic) NSArray<Feeds*> *dataSource;
 @property (strong, nonatomic) NSMutableIndexSet *selectedButtons;
@@ -34,6 +35,15 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
 @end
 
 @implementation FeedListVC
+
++ (void)initialize {
+    if (self == [FeedListVC class]) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            registerFeedServiceRuntimeClass();
+        });
+    }
+}
 
 #pragma mark - ViewController LifeCycle
 
@@ -96,10 +106,10 @@ NSString *const kFeedCellName = @"FeedTableViewCell";
     return _feedTableView;
 }
 
-- (FeedService *)feedService {
+- (id)feedService {
     if (!_feedService) {
-        _feedService = [[FeedService alloc] initWithParser: self.parser];
-        _feedService.urlString = self.stringWithChannelUrl;
+        _feedService = [[FeedServiceRuntime alloc] initWithParser: self.parser];
+        [_feedService setUrlString:self.stringWithChannelUrl];
     }
     return _feedService;
 }
