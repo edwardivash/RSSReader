@@ -185,7 +185,6 @@ NSString *const kSavedFileType = @"txt";
     ]];
 }
 
-
 - (void)dealloc
 {
     [_rssTableView release];
